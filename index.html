@@ -1,0 +1,2213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#060913">
+    <title>Troféu Global Regional Campo Bom</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Captura para Instagram -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- Efeito de Confetes -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --bg: #060913; 
+            --bg2: #0b1224;
+            --card: rgba(17,26,48,.78); 
+            --card-solid: #111a30; 
+            --card2: #16213d;
+            --line: rgba(130,160,220,.16); 
+            --line2: rgba(130,160,220,.28);
+            --txt: #eef2ff; 
+            --mut: #8d99ba; 
+            --mut2: #aab5d3;
+            --gold: #ffd24a; 
+            --gold2: #f5a524; 
+            --cyan: #22d3ee; 
+            --blue: #3b82f6; 
+            --indigo: #1e2f7a;
+            --green: #34f5a0; 
+            --red: #ff5470; 
+            --orange: #ff9f1c;
+            --silver: #cfd6e4; 
+            --bronze: #d98a4a;
+            --radius: 18px;
+            --font: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --font-t: 'Sora', 'Inter', 'Segoe UI', sans-serif;
+        }
+
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg);
+            background-image:
+                radial-gradient(circle at 50% -5%, rgba(255,210,74,.17) 0%, transparent 55%),
+                radial-gradient(circle at 90% 60%, rgba(34,211,238,.07) 0%, transparent 45%),
+                radial-gradient(circle at 5% 85%, rgba(59,130,246,.08) 0%, transparent 45%);
+            background-attachment: fixed;
+            color: var(--txt);
+            font-family: var(--font);
+            margin: 0; 
+            padding: 14px 20px 14px;
+            overflow-x: hidden; 
+            position: relative;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===== FUNDO ANIMADO ===== */
+        .bg-efeito-dourado { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; overflow: hidden; }
+        .particula-bokeh { position: absolute; border-radius: 50%; background: radial-gradient(circle, rgba(255,215,0,.55) 0%, rgba(255,215,0,0) 70%); animation: flutuar infinite linear, piscar infinite alternate ease-in-out; box-shadow: 0 0 15px rgba(255,215,0,.35); }
+        .confete-bg { position: absolute; animation: cair infinite linear; opacity: .7; box-shadow: 0 0 8px rgba(255,215,0,.5); }
+        
+        @keyframes flutuar { 0% { transform: translateY(100vh) scale(.8); } 100% { transform: translateY(-20vh) scale(1.2); } }
+        @keyframes piscar { 0% { opacity: .2; } 100% { opacity: .9; } }
+        @keyframes cair { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; } 10% { opacity: .8; } 90% { opacity: .8; } 100% { transform: translateY(100vh) rotate(360deg); opacity: 0; } }
+        @media (prefers-reduced-motion: reduce) { .particula-bokeh, .confete-bg { animation: none; opacity: .25; } }
+
+        /* ===== TOPO ===== */
+        #topo-geral { position: relative; z-index: 100; }
+        .hero { text-align: center; margin: 0 auto 12px; max-width: 100%; position: relative; }
+        
+        /* Título forçado em uma linha no Desktop */
+        .hero h1 { 
+            font-family: var(--font-t); 
+            margin: 0; 
+            font-size: 1.7em; 
+            font-weight: 900; 
+            letter-spacing: 1px; 
+            text-transform: uppercase; 
+            line-height: 1.1;
+            white-space: nowrap; /* Impede de quebrar em duas linhas */
+            background: linear-gradient(100deg, #fff3b0 0%, #ffd24a 35%, #f5a524 60%, #fff3b0 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text; 
+            background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            animation: brilho 6s linear infinite;
+            filter: drop-shadow(0 4px 18px rgba(255,210,74,.35)); 
+        }
+        @keyframes brilho { to { background-position: 200% center; } }
+        
+        .hero p { color: var(--mut2); font-size: .95em; font-style: italic; margin: 6px 0 0; }
+
+        /* ===== NAVEGAÇÃO ===== */
+        .tab-container { display: flex; justify-content: center; gap: 10px; margin: 0 auto 14px; flex-wrap: wrap; max-width: 1100px; padding: 6px; background: rgba(12,18,34,.75); border: 1px solid var(--line); border-radius: 60px; width: fit-content; }
+        .tab-btn { background: transparent; border: 1px solid transparent; color: var(--mut2); padding: 9px 20px; border-radius: 40px; cursor: pointer; font-weight: 700; font-size: .92em; font-family: inherit; transition: all .25s ease; display: flex; align-items: center; gap: 8px; }
+        .tab-btn svg { width: 18px; height: 18px; stroke: currentColor; transition: all .2s; }
+        .tab-btn:hover { color: #fff; background: rgba(255,255,255,.06); }
+        .tab-btn.active { background: linear-gradient(135deg, var(--cyan) 0%, var(--blue) 55%, var(--indigo) 100%); color: #fff; box-shadow: 0 6px 22px rgba(34,211,238,.35); }
+        .tab-content { display: none; animation: fadeIn .45s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ===== PÓDIO ===== */
+        .painel-principal { display: flex; justify-content: space-around; max-width: 1300px; margin: 0 auto; gap: 24px; align-items: flex-start; }
+        .secao-podio { display: flex; justify-content: center; align-items: flex-end; gap: 20px; padding-top: 135px; padding-bottom: 8px; position: relative; overflow: visible; }
+        .secao-podio::after { content: ''; position: absolute; bottom: 0px; left: 3%; width: 94%; height: 4px; background: radial-gradient(ellipse at center, rgba(34,211,238,.6) 0%, transparent 70%); border-radius: 50%; z-index: 0; }
+        
+        .podio { background: linear-gradient(180deg, #19284f, #0a1020); border-radius: 22px 22px 0 0; width: 195px; text-align: center; padding: 20px 10px 15px; transition: transform .3s ease, box-shadow .3s ease; cursor: pointer; position: relative; display: flex; flex-direction: column; align-items: center; z-index: 1; margin-bottom: 2px; }
+        .podio::before { content: ''; position: absolute; bottom: -12px; left: 10%; width: 80%; height: 12px; background: rgba(0,0,0,.8); border-radius: 50%; filter: blur(5px); z-index: -1; }
+        .podio:hover { transform: translateY(-10px); }
+        .podio:active { transform: translateY(-4px) scale(.98); }
+        
+        .avatar-circle { border-radius: 50%; display: none; position: absolute; left: 0; right: 0; margin: 0 auto; overflow: hidden; background-color: #0b0f19; z-index: 10; justify-content: center; align-items: center; }
+        .avatar-circle img { width: 100%; height: 100%; object-fit: cover; object-position: center 15%; border-radius: 50%; display: block; }
+        
+        .avatar-1 { width: 160px; height: 160px; top: -80px; border: 3px solid var(--gold); box-shadow: 0 0 40px rgba(255,215,0,.85); }
+        .avatar-2 { width: 130px; height: 130px; top: -65px; border: 3px solid var(--silver); box-shadow: 0 0 32px rgba(192,192,192,.75); }
+        .avatar-3 { width: 120px; height: 120px; top: -60px; border: 3px solid var(--bronze); box-shadow: 0 0 32px rgba(205,127,50,.75); }
+        
+        .trofeu-lado { position: absolute; left: 100%; top: -50px; margin-left: -50px; width: 100px; z-index: 11; filter: drop-shadow(0 6px 14px rgba(255,210,74,.55)); animation: flutuaTrofeu 3.2s ease-in-out infinite; pointer-events: none; }
+        .trofeu-lado svg { display: block; width: 100%; height: auto; }
+        @keyframes flutuaTrofeu { 0%, 100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-8px) rotate(3deg); } }
+        
+        .pos-num { margin: 0; font-family: var(--font-t); font-weight: 800; }
+        .nome-gerente { flex-shrink: 0; min-height: 22px; font-size: 1.15em; font-weight: 800; color: #fff; margin: 15px 0 2px; text-shadow: 0 2px 4px rgba(0,0,0,.8); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; }
+        .info-filial-podio { font-size: .7em; font-weight: 700; color: #cbd5e1; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; margin-bottom: 5px; display: block; }
+        
+        .badge-capsula { background: #0a0f1c; border-radius: 20px; padding: 8px 4px; margin-top: auto; width: 95%; }
+        .badge-1 { border: 2px solid var(--gold); box-shadow: 0 0 15px rgba(255,215,0,.4); }
+        .badge-2 { border: 2px solid var(--silver); box-shadow: 0 0 15px rgba(192,192,192,.4); }
+        .badge-3 { border: 2px solid var(--bronze); box-shadow: 0 0 15px rgba(205,127,50,.4); }
+        .badge-pontos { font-size: 1.05em; font-weight: 800; display: block; margin-top: 3px; }
+        .badge-1 .badge-pontos { color: var(--gold); } 
+        .badge-2 .badge-pontos { color: var(--silver); } 
+        .badge-3 .badge-pontos { color: var(--bronze); }
+        
+        .podio-1 { height: 360px; border: 2px solid var(--gold); box-shadow: 0 4px 10px rgba(0,0,0,.5), 0 0 60px rgba(255,210,74,.12); padding-top: 90px; background: linear-gradient(180deg, #2a2a3a 0%, #141a30 35%, #0a1020 100%); }
+        .podio-2 { height: 270px; border: 2px solid var(--silver); box-shadow: 0 4px 10px rgba(0,0,0,.5); padding-top: 75px; }
+        .podio-3 { height: 230px; border: 2px solid var(--bronze); box-shadow: 0 4px 10px rgba(0,0,0,.5); padding-top: 60px; }
+        
+        .podio-1:hover { box-shadow: 0 0 38px rgba(255,215,0,.6), inset 0 0 25px rgba(255,215,0,.3); }
+        .podio-2:hover { box-shadow: 0 0 38px rgba(192,192,192,.6), inset 0 0 25px rgba(192,192,192,.3); }
+        .podio-3:hover { box-shadow: 0 0 38px rgba(205,127,50,.6), inset 0 0 25px rgba(205,127,50,.3); }
+
+        /* ===== LISTA ===== */
+        .secao-lista-wrapper { width: 100%; max-width: 500px; margin: 0 auto; text-align: left; }
+        .busca-ranking { width: 100%; padding: 14px 20px; border-radius: 14px; border: 1px solid var(--line2); background: rgba(17,26,48,.9); color: #fff; margin-bottom: 10px; outline: none; font-size: 1em; font-weight: 600; font-family: inherit; transition: all .2s; }
+        .busca-ranking::placeholder { color: var(--mut); }
+        .busca-ranking:focus { border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(34,211,238,.18); }
+        .secao-lista { background: rgba(14,22,42,.72); border-radius: 16px; padding: 16px; height: calc(100vh - 330px); min-height: 300px; max-height: 430px; overflow-y: auto; border: 1px solid var(--line); width: 100%; }
+        .secao-lista::-webkit-scrollbar { width: 8px; } 
+        .secao-lista::-webkit-scrollbar-thumb { background: linear-gradient(var(--cyan), var(--blue)); border-radius: 4px; }
+        .item-lista { display: flex; justify-content: space-between; align-items: center; gap: 10px; background: var(--card2); margin-bottom: 10px; padding: 13px 15px; border-radius: 12px; border-left: 4px solid var(--cyan); transition: all .2s; cursor: pointer; }
+        .item-lista:hover { background: #1d2b4e; transform: translateX(4px); }
+        .posicao-lista { color: var(--mut); font-weight: 800; width: 34px; font-size: .9em; }
+        .nome-wrap { flex: 1; min-width: 0; }
+        .nome-filial { display: block; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: .95em; }
+        .barra { height: 4px; background: rgba(255,255,255,.07); border-radius: 4px; margin-top: 7px; overflow: hidden; }
+        .barra i { display: block; height: 100%; background: linear-gradient(90deg, var(--cyan), var(--green)); border-radius: 4px; }
+        .pontos-filial { color: var(--cyan); font-weight: 800; white-space: nowrap; font-size: .95em; }
+        .skeleton { height: 52px; border-radius: 12px; margin-bottom: 10px; background: linear-gradient(90deg, #16213d 25%, #1e2c52 50%, #16213d 75%); background-size: 200% 100%; animation: shimmer 1.3s infinite; }
+        @keyframes shimmer { to { background-position: -200% 0; } }
+        
+        #texto-carregando { text-align: center; color: var(--mut); font-size: .88em; margin-top: 14px; }
+        #aviso-erro { color: var(--red); text-align: center; font-size: .92em; margin-top: 14px; display: none; padding: 14px; background: rgba(255,84,112,.1); border-radius: 10px; border: 1px solid var(--red); font-weight: 700; line-height: 1.5; }
+
+        /* ===== TELAS SECUNDÁRIAS / BOTÕES ===== */
+        .container-metas { max-width: 1400px; margin: 0 auto; text-align: center; }
+        .tela-selecao { display: block; }
+        .tela-detalhe { display: none; animation: fadeIn .45s ease; text-align: left; }
+        .topbar-detalhe { display: flex; align-items: center; justify-content: flex-start; margin-bottom: 20px; gap: 15px; flex-wrap: wrap; }
+        
+        .btn-voltar { background: transparent; border: 1px solid var(--mut); color: var(--mut2); padding: 10px 20px; border-radius: 30px; cursor: pointer; font-weight: 700; font-size: .95em; display: flex; align-items: center; gap: 8px; font-family: inherit; transition: all .2s; }
+        .btn-voltar:hover { background: var(--mut2); color: #0b0f19; }
+        .btn-top10 { background: linear-gradient(135deg, var(--cyan) 0%, var(--blue) 55%, var(--indigo) 100%); color: #fff; border: none; padding: 11px 22px; border-radius: 30px; cursor: pointer; font-weight: 800; font-size: .95em; font-family: inherit; display: inline-flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 6px 20px rgba(34,211,238,.35); transition: transform .2s, box-shadow .2s; }
+        .btn-top10:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 10px 26px rgba(34,211,238,.45); }
+        
+        .btn-logout { background: rgba(255,84,112,.1); color: var(--red); border: 1px solid var(--red); }
+        .btn-logout:hover { background: var(--red); color: #fff; }
+        
+        .card-maximized { background: var(--card); border: 1px solid var(--line2); border-radius: 24px; padding: 38px; max-width: 1000px; margin: 0 auto; box-shadow: 0 20px 50px rgba(0,0,0,.55), inset 0 0 0 1px rgba(34,211,238,.06); position: relative; }
+        .card-maximized::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 3px; border-radius: 24px 24px 0 0; background: linear-gradient(90deg, transparent, var(--cyan), var(--gold), transparent); }
+        
+        .detalhe-header { text-align: center; border-bottom: 1px solid var(--line); padding-bottom: 20px; margin-bottom: 28px; }
+        .detalhe-nome { font-family: var(--font-t); font-size: 2.3em; font-weight: 800; color: #fff; margin: 0; text-transform: uppercase; }
+        .detalhe-cidade { font-size: 1.05em; color: var(--mut2); margin-top: 8px; font-weight: 700; letter-spacing: 2px; }
+        
+        .placeholder-compacto { background: rgba(255,210,74,.07); border: 1px dashed rgba(255,210,74,.4); color: var(--mut2); padding: 16px 20px; border-radius: 14px; max-width: 500px; margin: 0 auto 18px; line-height: 1.5; font-size: .95em; }
+        .placeholder-compacto strong { color: var(--gold); letter-spacing: 1.5px; }
+
+        /* LOGIN */
+        #tela-login-simulador { margin-top: 2vh; }
+        #tela-login-simulador .card-maximized { padding: 30px; max-width: 450px; margin: 0 auto; }
+        .lock-ico { width: 56px; height: 56px; font-size: 1.6em; margin: 0 auto 10px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle, rgba(34,211,238,.25), rgba(34,211,238,.04)); border: 1px solid rgba(34,211,238,.4); box-shadow: 0 0 30px rgba(34,211,238,.25); }
+        #tela-login-simulador h3 { margin-bottom: 10px; font-size: 1.5em; }
+        #form-login p, #form-solicitar-token p, #form-criar-senha p { margin-bottom: 15px; font-size: 0.95em; line-height: 1.4; }
+        .input-login { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--line2); background: #0b1224; color: #fff; text-align: center; font-size: 1em; margin-bottom: 12px; outline: none; font-family: inherit; transition: all .2s; }
+        .input-login:focus { border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(34,211,238,.18); }
+        .link-senha { color: var(--cyan); cursor: pointer; font-size: .9em; text-decoration: underline; background: none; border: none; padding: 0; font-weight: 700; margin: 0 10px; font-family: inherit; }
+
+        /* SIMULADOR */
+        .grid-blocos-indicadores { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+        .bloco-full { grid-column: 1 / -1; width: 100%; justify-self: center; }
+        .bloco-indicador { background: rgba(8,13,26,.62); border: 1px solid var(--line); border-radius: 16px; padding: 20px 24px; }
+        .titulo-bloco { font-family: var(--font-t); font-size: 1.15em; font-weight: 800; margin: 0 0 14px; text-align: center; letter-spacing: 1px; line-height: 1.3; }
+        .ind-grid-2 { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; }
+        .item-ind-max { background: var(--card2); padding: 15px 10px; border-radius: 12px; text-align: center; border: 1px solid rgba(255,255,255,.05); }
+        .label-ind-max { font-size: .72em; color: var(--mut); text-transform: uppercase; font-weight: 800; letter-spacing: 1px; }
+        .val-ind-max { font-size: 1.65em; font-weight: 900; margin-top: 5px; }
+        .badge-perda { display: inline-block; background: var(--red); color: #fff; padding: 6px 12px; border-radius: 15px; font-size: .85em; font-weight: 700; margin: 4px; box-shadow: 0 2px 6px rgba(0,0,0,.5); }
+        .premio-gigante-verde { font-size: 2.7em !important; color: var(--green) !important; text-shadow: 0 0 18px rgba(52,245,160,.5); font-family: var(--font-t); }
+        
+        .nsl-hero { display: flex; align-items: center; gap: 26px; justify-content: center; flex-wrap: wrap; }
+        .ring-wrap { position: relative; width: 140px; height: 140px; flex: 0 0 auto; }
+        .ring-wrap svg { transform: rotate(-90deg); }
+        .ring-bg { fill: none; stroke: rgba(255,255,255,.08); stroke-width: 10; }
+        .ring-fg { fill: none; stroke: url(#gradRing); stroke-width: 10; stroke-linecap: round; transition: stroke-dashoffset 1.6s cubic-bezier(.22,1,.36,1); }
+        .ring-centro { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .ring-centro b { font-family: var(--font-t); font-size: 1.7em; line-height: 1; }
+        .ring-centro span { font-size: .65em; color: var(--mut); font-weight: 800; letter-spacing: 1px; margin-top: 3px; }
+        
+        .nsl-kpis { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; flex: 1; min-width: 260px; }
+        .comp-lista { margin-top: 20px; display: flex; flex-direction: column; gap: 11px; }
+        .comp-linha { display: grid; grid-template-columns: 150px 1fr 120px; gap: 12px; align-items: center; font-size: .85em; }
+        .comp-linha .cn { font-weight: 700; color: var(--mut2); }
+        .comp-linha .cb { height: 9px; background: rgba(255,255,255,.07); border-radius: 6px; overflow: hidden; }
+        .comp-linha .cb i { display: block; height: 100%; border-radius: 6px; transition: width 1.4s cubic-bezier(.22,1,.36,1); width: 0; }
+        .comp-linha .cv { text-align: right; font-weight: 800; color: #fff; white-space: nowrap; }
+        .comp-linha .cv small { color: var(--mut); font-weight: 600; }
+        
+        .comp-resumo { flex: 1 1 100%; text-align: center; background: linear-gradient(135deg, rgba(255,210,74,.12), rgba(11,15,25,.9)); border: 1px solid rgba(255,210,74,.5); border-radius: 16px; padding: 16px; font-weight: 700; color: var(--mut2); }
+        .comp-resumo b { color: var(--gold); font-size: 1.15em; }
+
+        /* TABELA DE METAS */
+        .toolbar-metas { display: flex; gap: 12px; justify-content: center; align-items: center; margin-bottom: 14px; flex-wrap: wrap; }
+        .toolbar-metas .busca-ranking { margin: 0; flex: 1; min-width: 230px; max-width: 420px; }
+        .tabela-container-scroll { width: 100%; max-height: calc(100vh - 260px); min-height: 400px; overflow: auto; background: rgba(14,22,42,.72); border-radius: 16px; border: 1px solid var(--line); box-shadow: 0 14px 36px rgba(0,0,0,.5); margin-bottom: 20px; }
+        .tabela-container-scroll::-webkit-scrollbar { width: 12px; height: 12px; }
+        .tabela-container-scroll::-webkit-scrollbar-thumb { background: linear-gradient(var(--cyan), var(--blue)); border-radius: 6px; }
+        .tabela-container-scroll::-webkit-scrollbar-track { background: rgba(6,9,19,.9); border-radius: 6px; }
+        .tabela-metas { width: 100%; border-collapse: collapse; min-width: 1400px; text-align: center; font-size: .9em; }
+        .tabela-metas th, .tabela-metas td { padding: 12px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+        .tabela-metas th { background: #0b1224; color: var(--mut2); font-weight: 800; text-transform: uppercase; font-size: .85em; letter-spacing: 1px; position: sticky; top: 0; z-index: 10; padding: 16px 10px; box-shadow: 0 2px 6px rgba(0,0,0,.5); cursor: pointer; user-select: none; transition: color .2s; }
+        .tabela-metas th:hover { color: #fff; }
+        .tabela-metas th span { display: block; color: var(--cyan); font-size: .85em; margin-top: 5px; }
+        .tabela-metas th.ord-asc::after { content: ' ▲'; color: var(--gold); }
+        .tabela-metas th.ord-desc::after { content: ' ▼'; color: var(--gold); }
+        .tabela-metas tbody tr { transition: background .2s; }
+        .tabela-metas tbody tr:nth-child(even) { background: rgba(255,255,255,.015); }
+        .tabela-metas tbody tr:hover { background: rgba(34,211,238,.09); }
+        .tabela-metas th:first-child, .tabela-metas td:first-child { position: sticky; left: 0; background: var(--card2); z-index: 11; font-weight: 700; text-align: left; border-right: 2px solid var(--line2); padding-left: 15px; min-width: 210px; }
+        .tabela-metas th:first-child { z-index: 12; background: #0b1224; }
+        .tabela-metas tbody tr.top3 td:first-child { border-left: 4px solid var(--gold); }
+        
+        .val-bom { color: var(--green); font-weight: 800; text-shadow: 0 0 6px rgba(52,245,160,.28); }
+        .val-ruim { color: var(--red); font-weight: 800; }
+        .col-pts { color: var(--gold); font-weight: 900; font-size: 1.1em; background: rgba(255,210,74,.06); }
+        .cidade-tabela { display: inline; }
+
+        /* REGRAS */
+        .regra-frame { position: relative; display: inline-block; max-width: 100%; cursor: zoom-in; }
+        .regra-frame img { max-width: 100%; max-height: calc(100vh - 220px); width: auto; height: auto; object-fit: contain; border-radius: 16px; border: 2px solid var(--line2); box-shadow: 0 14px 40px rgba(0,0,0,.55), 0 0 40px rgba(34,211,238,.1); display: block; }
+        .regra-dica { position: absolute; right: 12px; bottom: 12px; background: rgba(6,9,19,.85); color: var(--mut2); font-size: .75em; font-weight: 700; padding: 6px 12px; border-radius: 20px; border: 1px solid var(--line2); }
+        
+        #lightbox { position: fixed; inset: 0; background: rgba(3,5,12,.94); z-index: 5000; display: none; align-items: center; justify-content: center; padding: 20px; cursor: zoom-out; }
+        #lightbox.show { display: flex; animation: fadeIn .25s ease; }
+        #lightbox img { max-width: 96vw; max-height: 94vh; border-radius: 12px; box-shadow: 0 0 60px rgba(0,0,0,.8); }
+
+        /* COMPARATIVO */
+        .comparativo-container { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; align-items: flex-start; }
+        .card-comparativo { flex: 1; min-width: 320px; max-width: 600px; background: var(--card); border: 1px solid var(--line2); border-radius: 22px; padding: 25px; box-shadow: 0 18px 44px rgba(0,0,0,.55); }
+
+        /* COMPARTILHAR */
+        .share-container { position: fixed; bottom: 24px; right: 24px; z-index: 1000; display: flex; flex-direction: column; align-items: flex-end; }
+        .share-menu { background: rgba(12,18,34,.96); border: 1px solid var(--line2); border-radius: 14px; padding: 10px; margin-bottom: 12px; display: none; flex-direction: column; gap: 8px; box-shadow: 0 12px 30px rgba(0,0,0,.6); }
+        .share-menu.show { display: flex; animation: fadeIn .2s ease; }
+        .share-option { background: var(--card2); color: #fff; border: 1px solid var(--line); padding: 10px 16px; border-radius: 9px; cursor: pointer; font-weight: 700; transition: all .2s; display: flex; align-items: center; gap: 10px; font-size: .88em; white-space: nowrap; font-family: inherit; }
+        .share-option:hover { background: var(--cyan); color: #0b0f19; }
+        .share-btn { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: #fff; border: none; width: 58px; height: 58px; border-radius: 50%; cursor: pointer; box-shadow: 0 6px 20px rgba(220,39,67,.55); transition: transform .2s; display: flex; align-items: center; justify-content: center; padding: 0; }
+        .share-btn:hover { transform: scale(1.1) rotate(-6deg); }
+
+        /* BANNER SÓ NA IMAGEM COMPARTILHADA */
+        #share-banner { display: none; text-align: center; margin: 0 auto 20px; padding-top: 6px; }
+        #share-banner .sb-t { font-family: var(--font-t); font-size: 2.4em; font-weight: 800; color: var(--gold); letter-spacing: 1px; }
+        #share-banner .sb-s { font-weight: 800; letter-spacing: 3px; color: #fff; margin-top: 4px; font-size: 1em; }
+        #share-banner .sb-g { color: var(--mut2); font-style: italic; margin-top: 6px; font-size: .9em; }
+
+        /* TOAST */
+        #toast-box { position: fixed; top: 18px; left: 50%; transform: translateX(-50%); z-index: 9000; display: flex; flex-direction: column; gap: 10px; align-items: center; pointer-events: none; width: calc(100% - 30px); max-width: 460px; }
+        .toast { background: rgba(14,22,42,.97); border: 1px solid var(--line2); border-left: 4px solid var(--cyan); color: #fff; padding: 13px 18px; border-radius: 12px; font-weight: 600; font-size: .92em; box-shadow: 0 14px 34px rgba(0,0,0,.6); animation: fadeIn .3s ease; line-height: 1.45; }
+        .toast.ok { border-left-color: var(--green); } 
+        .toast.erro { border-left-color: var(--red); }
+
+        /* ===== DESKTOP ===== */
+        @media (min-width:851px) and (min-height:640px) {
+            html, body { height: 100%; }
+            body { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+            #topo-geral { flex: 0 0 auto; }
+            .tab-content.active { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; overflow-x: hidden; overflow-y: auto; }
+            
+            #aba-ranking .painel-principal { flex: 1; min-height: 0; width: 100%; align-items: stretch; }
+            #aba-ranking .secao-podio { flex: 1; align-self: stretch; align-items: flex-end; padding-top: 170px; padding-bottom: 8px; gap: 24px; margin-bottom: 10px; }
+            
+            #aba-ranking .secao-lista-wrapper { display: flex; flex-direction: column; align-self: stretch; min-height: 0; }
+            #aba-ranking .secao-lista { flex: 1; height: auto; max-height: none; min-height: 0; }
+            
+            #aba-ranking .podio { width: clamp(190px, 16vw, 250px); }
+            #aba-ranking .podio-1 { height: 370px; min-height: 320px; padding-top: 125px; }
+            #aba-ranking .podio-2 { height: 310px; min-height: 240px; padding-top: 94px; }
+            #aba-ranking .podio-3 { height: 270px; min-height: 200px; padding-top: 86px; }
+            
+            #aba-ranking .avatar-1 { width: 180px; height: 180px; top: -105px; }
+            #aba-ranking .avatar-2 { width: 160px; height: 160px; top: -80px; }
+            #aba-ranking .avatar-3 { width: 150px; height: 150px; top: -73px; }
+            
+            #aba-ranking .nome-gerente { font-size: 1.4em; min-height: 28px; }
+            #aba-ranking .info-filial-podio { font-size: .78em; }
+            #aba-ranking .badge-pontos { font-size: 1.2em; }
+            
+            #aba-ranking .trofeu-lado { width: 115px; top: -60px; margin-left: -55px; }
+            
+            #aba-metas .container-metas { flex: 1; min-height: 0; width: 100%; display: flex; flex-direction: column; }
+            #aba-metas .toolbar-metas { margin-bottom: 10px; }
+            #aba-metas .tabela-container-scroll { flex: 1; min-height: 0; max-height: none; margin-bottom: 0; }
+            
+            #aba-regras .container-metas { flex: 1; min-height: 0; width: 100%; padding: 0 !important; }
+            #aba-regras .regra-frame { height: 100%; }
+            #aba-regras .regra-frame img { height: 100%; width: auto; max-width: 100%; max-height: 100%; object-fit: contain; }
+            
+            #aba-simulador .container-metas { flex: 1; min-height: 0; width: 100%; display: flex; flex-direction: column; }
+            #tela-selecao-simul[style*="display: block"] { display: flex !important; flex-direction: column; flex: 1; min-height: 0; }
+            #tela-selecao-simul .secao-lista-wrapper { flex: 1; min-height: 0; display: flex; flex-direction: column; max-width: 560px; }
+            #tela-selecao-simul .secao-lista { flex: 1; height: auto !important; max-height: none; min-height: 250px; }
+            #lista-selecao-simul .item-lista { padding: 9px 14px; margin-bottom: 8px; }
+            .placeholder-compacto { padding: 8px 16px; margin-bottom: 10px; font-size: .9em; max-width: 760px; }
+
+            .lock-ico { width: 50px; height: 50px; font-size: 1.4em; margin: 0 auto 10px; }
+            #tela-login-simulador h3 { font-size: 1.4em; margin-bottom: 10px; }
+            #form-login p, #form-solicitar-token p, #form-criar-senha p { margin-bottom: 15px; font-size: 0.95em; line-height: 1.2; }
+            .input-login { padding: 12px; font-size: 1em; margin-bottom: 10px; }
+            .btn-top10 { padding: 12px; font-size: 1em; }
+        }
+
+        /* ===== MOBILE ===== */
+        @media (max-width:850px) {
+            body { padding: 12px 6px 95px; }
+            .hero h1 { font-size: 1.1em; white-space: normal; } 
+            .hero p { font-size: .88em; padding: 0 10px; }
+            
+            /* Menu estilo App Magalu (flutuante no rodapé) - AGORA COM TEMA ESCURO DO DASHBOARD */
+            .tab-container {
+                position: fixed;
+                bottom: 15px;
+                left: 5%;
+                width: 90%;
+                margin: 0;
+                padding: 10px 5px;
+                background: rgba(12, 18, 34, 0.95); /* Fundo escuro */
+                backdrop-filter: blur(15px);
+                border: 1px solid var(--line2); /* Borda escura */
+                border-radius: 40px; /* Formato pílula */
+                display: flex !important;
+                flex-direction: row;
+                justify-content: space-around;
+                align-items: center;
+                z-index: 9999;
+                box-shadow: 0 8px 25px rgba(0,0,0,0.6); /* Sombra mais intensa */
+                gap: 0;
+            }
+            .tab-btn {
+                flex-direction: column;
+                width: 25%;
+                padding: 5px 2px;
+                background: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+                color: var(--mut); /* Texto cinza escuro */
+                font-size: 0.65em;
+                font-weight: 700;
+                gap: 5px;
+                white-space: nowrap;
+                border-radius: 0;
+            }
+            .tab-btn svg { width: 22px; height: 22px; stroke: var(--mut); transition: all 0.3s ease; } /* Ícone cinza escuro */
+            
+            .tab-btn.active { color: var(--cyan) !important; background: transparent !important; } /* Texto ativo cyan */
+            .tab-btn.active svg { stroke: var(--cyan); transform: scale(1.15); filter: drop-shadow(0 0 6px rgba(34,211,238,0.5)); } /* Ícone ativo cyan + brilho */
+            
+            .share-container { bottom: 110px; right: 15px; }
+
+            .painel-principal { flex-direction: column; align-items: center; gap: 20px; }
+            
+            .secao-podio { width: 100%; gap: 6px; padding-top: 140px; padding-bottom: 8px; margin-bottom: 15px; }
+            .secao-podio::after { bottom: 0px; z-index: 0; }
+            
+            .podio { width: 32%; padding: 12px 4px; margin-bottom: 0; z-index: 1; }
+            
+            .avatar-1 { width: 125px; height: 125px; top: -62px; border-width: 2px; }
+            .avatar-2 { width: 90px; height: 90px; top: -45px; border-width: 2px; }
+            .avatar-3 { width: 85px; height: 85px; top: -42px; border-width: 2px; }
+            
+            .trofeu-lado { width: 50px; top: -35px; margin-left: -25px; }
+            
+            .podio-1 { padding-top: 70px; height: 280px; } 
+            .podio-2 { padding-top: 50px; height: 220px; } 
+            .podio-3 { padding-top: 45px; height: 200px; }
+            
+            .nome-gerente { flex-shrink: 0; margin: 10px 0 2px; font-size: .95em; min-height: 22px; }
+            
+            .secao-lista-wrapper { padding: 0 10px; }
+            .secao-lista { height: auto; max-height: 450px; padding: 12px; }
+            .item-lista { padding: 11px; font-size: .85em; margin-bottom: 8px; }
+            
+            .card-maximized, .card-comparativo { padding: 20px 14px; margin: 0 8px; width: auto; border-radius: 16px; }
+            .detalhe-nome { font-size: 1.5em; line-height: 1.1; margin-bottom: 5px; } 
+            .detalhe-cidade { font-size: .95em; }
+            
+            .grid-blocos-indicadores { grid-template-columns: 1fr; gap: 14px; }
+            .bloco-indicador { padding: 15px; }
+            .ind-grid-2 { grid-template-columns: 1fr; gap: 8px; }
+            
+            .item-ind-max { padding: 12px 15px !important; display: flex !important; flex-direction: row !important; justify-content: space-between !important; align-items: center !important; text-align: left !important; }
+            .item-ind-max .label-ind-max { margin-bottom: 0 !important; font-size: .7em !important; text-align: left !important; }
+            .item-ind-max .val-ind-max { font-size: 1.2em !important; margin-top: 0 !important; }
+            
+            .caixa-destaque-mobile { flex-direction: column !important; align-items: center !important; justify-content: center !important; text-align: center !important; }
+            .caixa-destaque-mobile .label-ind-max { text-align: center !important; margin-bottom: 8px !important; font-size: .8em !important; }
+            .caixa-destaque-mobile .val-ind-max { font-size: 1.8em !important; width: 100% !important; text-align: center !important; }
+            
+            .alerta-perda-caixa { flex-direction: column !important; align-items: center !important; text-align: center !important; }
+            .alerta-perda-caixa .label-ind-max { text-align: center !important; margin-bottom: 8px !important; font-size: .8em !important; }
+            .alerta-perda-caixa .val-ind-max { font-size: 1.7em !important; }
+            
+            .premio-gigante-verde { font-size: 2em !important; }
+            .badge-perda { padding: 6px 10px; font-size: .78em; margin: 3px; }
+            
+            .nsl-hero { flex-direction: column; } 
+            .nsl-kpis { grid-template-columns: 1fr; width: 100%; }
+            .comp-linha { grid-template-columns: 100px 1fr 90px; gap: 8px; font-size: .78em; }
+            
+            .container-metas { padding: 0; width: 100%; overflow: hidden; }
+            .toolbar-metas { padding: 0 8px; }
+            .tabela-container-scroll { max-height: none; width: calc(100vw - 12px); margin: 0 auto 20px; overflow-x: auto; overflow-y: hidden; }
+            .tabela-metas th, .tabela-metas td { padding: 10px 8px; font-size: .85em; }
+            .cidade-tabela { display: none !important; }
+            .tabela-metas th:first-child, .tabela-metas td:first-child { min-width: 110px; padding-left: 10px; }
+            
+            .regra-frame img { max-height: 380px; }
+            .comparativo-container { flex-direction: column; align-items: center; }
+
+            .lock-ico { width: 40px; height: 40px; font-size: 1.2em; margin: 0 auto 5px; }
+            #tela-login-simulador { margin-top: 0; }
+            #tela-login-simulador h3 { font-size: 1.2em; margin-bottom: 5px; }
+            #form-login p, #form-solicitar-token p, #form-criar-senha p { margin-bottom: 10px; font-size: .85em; line-height: 1.2; }
+            .input-login { padding: 10px; font-size: .9em; margin-bottom: 8px; }
+            .btn-top10 { padding: 10px; font-size: .95em; }
+        }
+
+        /* ===================================================
+           MODO SUSPENSE (público não vê o resultado)
+           =================================================== */
+        .avatar-misterio { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-family: var(--font-t); font-weight: 800; font-size: 3.2em; color: var(--gold); background: radial-gradient(circle, #1b2a55 0%, #0b0f19 75%); text-shadow: 0 0 22px rgba(255,210,74,.8); animation: pulsaQ 1.8s ease-in-out infinite; }
+        .avatar-2 .avatar-misterio { color: var(--silver); text-shadow: 0 0 22px rgba(207,214,228,.8); }
+        .avatar-3 .avatar-misterio { color: var(--bronze); text-shadow: 0 0 22px rgba(217,138,74,.8); }
+        .suspense-card { text-align: center; padding: 34px 22px; border-radius: 16px; background: linear-gradient(160deg, rgba(255,210,74,.10), rgba(11,18,36,.85)); border: 1px dashed rgba(255,210,74,.5); color: var(--mut2); line-height: 1.5; max-width: 560px; margin: 10px auto; }
+        .suspense-card .sc-ico { font-size: 2.6em; margin-bottom: 8px; animation: pulsaQ 2s ease-in-out infinite; }
+        .suspense-card b { display: block; color: var(--gold); font-family: var(--font-t); font-size: 1.2em; letter-spacing: 1px; margin-bottom: 6px; }
+        .banner-suspense-admin { display: none; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; max-width: 900px; margin: 0 auto 8px; padding: 8px 14px; border-radius: 40px; background: rgba(255,210,74,.08); border: 1px solid rgba(255,210,74,.45); color: var(--mut2); font-size: .85em; flex: 0 0 auto; }
+        .banner-suspense-admin b { color: var(--gold); }
+        .banner-suspense-admin .btn-apresentar { padding: 7px 16px; font-size: .9em; }
+        .btn-apresentar { background: linear-gradient(135deg, #fff3b0 0%, #ffd24a 40%, #f5a524 100%) !important; color: #1a1205 !important; box-shadow: 0 6px 22px rgba(255,210,74,.4) !important; }
+        #toast-box { z-index: 10200; }
+        @keyframes pulsaQ { 0%,100% { transform: scale(1); opacity: .85; } 50% { transform: scale(1.08); opacity: 1; } }
+
+        /* ===================================================
+           MODO APRESENTAÇÃO (somente admin)
+           =================================================== */
+        #apresentacao { position: fixed; inset: 0; z-index: 10000; display: none; overflow: hidden; cursor: pointer; user-select: none; -webkit-user-select: none; color: #fff; font-family: var(--font);
+            background: radial-gradient(ellipse at 50% 115%, #1d2d5c 0%, #0a1024 45%, #04060d 100%); }
+        #apresentacao.show { display: block; animation: fadeIn .6s ease; }
+        #apresentacao > * { position: absolute; }
+
+        .ap-luzes { inset: 0; pointer-events: none; z-index: 0; }
+        .ap-luzes::before, .ap-luzes::after { content: ''; position: absolute; top: -15%; width: 34vw; height: 135vh; background: linear-gradient(180deg, rgba(255,240,190,.20), rgba(255,240,190,0) 78%); clip-path: polygon(46% 0, 54% 0, 100% 100%, 0 100%); transform-origin: 50% 0; filter: blur(6px); animation: holofote 7s ease-in-out infinite alternate; }
+        .ap-luzes::before { left: 2%; }
+        .ap-luzes::after { right: 2%; animation-delay: -3.5s; animation-direction: alternate-reverse; }
+        @keyframes holofote { from { transform: rotate(-26deg); } to { transform: rotate(22deg); } }
+        #apresentacao.tensao .ap-luzes::before, #apresentacao.tensao .ap-luzes::after { animation-duration: .7s; background: linear-gradient(180deg, rgba(255,255,255,.28), rgba(255,255,255,0) 80%); }
+        #apresentacao.ouro .ap-luzes::before, #apresentacao.ouro .ap-luzes::after { background: linear-gradient(180deg, rgba(255,210,74,.35), rgba(255,210,74,0) 80%); animation-duration: 3s; }
+
+        .ap-palco { top: 17vh; bottom: 8vh; left: 0; right: 0; z-index: 1; }
+        .ap-vinheta { inset: 0; z-index: 2; pointer-events: none; opacity: 0; transition: opacity 1.2s ease; background: radial-gradient(ellipse 30% 50% at 50% 62%, transparent 0%, rgba(0,0,0,.88) 100%); }
+        #apresentacao.tensao .ap-vinheta { opacity: 1; }
+        .ap-topo { top: 3.5vh; left: 0; right: 0; text-align: center; z-index: 3; pointer-events: none; padding: 0 16px; }
+        .ap-sub { font-weight: 800; letter-spacing: .35em; color: var(--mut2); font-size: clamp(.7rem, 1.2vw, 1rem); }
+        .ap-titulo { font-family: var(--font-t); font-weight: 800; font-size: clamp(1.5rem, 3.6vw, 3.2rem); margin-top: .5vh; line-height: 1.1;
+            background: linear-gradient(100deg, #fff3b0 0%, #ffd24a 40%, #f5a524 65%, #fff3b0 100%); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: brilho 5s linear infinite; filter: drop-shadow(0 4px 20px rgba(255,210,74,.35)); }
+        .ap-titulo.pop { animation: brilho 5s linear infinite, popTitulo .6s cubic-bezier(.2,1.6,.4,1); }
+        @keyframes popTitulo { 0% { transform: scale(.6); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .ap-rodape { bottom: 2.2vh; left: 24px; right: 24px; z-index: 3; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+        .ap-dica { color: var(--mut); font-size: .85em; font-weight: 600; letter-spacing: .5px; animation: piscaDica 2.4s ease-in-out infinite; }
+        @keyframes piscaDica { 0%,100% { opacity: .45; } 50% { opacity: 1; } }
+        .ap-ctrl { display: flex; gap: 8px; }
+        .ap-ctrl button { background: rgba(255,255,255,.06); border: 1px solid var(--line2); color: var(--mut2); padding: 7px 14px; border-radius: 20px; font-family: inherit; font-weight: 700; font-size: .8em; cursor: pointer; }
+        .ap-ctrl button:hover { background: rgba(255,255,255,.15); color: #fff; }
+        .ap-flash { inset: 0; z-index: 4; background: #fff; opacity: 0; pointer-events: none; }
+        .ap-flash.bang { animation: flashBang .9s ease-out; }
+        @keyframes flashBang { 0% { opacity: .95; } 100% { opacity: 0; } }
+
+        .ap-cena { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transform: scale(.95); transition: opacity .7s ease, transform .7s ease; pointer-events: none; padding: 0 16px; }
+        .ap-cena.ativa { opacity: 1; transform: none; }
+
+        /* Intro */
+        .ap-trofeu-grande { width: clamp(130px, 24vh, 250px); animation: flutuaTrofeu 3.2s ease-in-out infinite; filter: drop-shadow(0 0 40px rgba(255,210,74,.6)); }
+        .ap-trofeu-grande svg { width: 100%; height: auto; display: block; }
+        .ap-pergunta { font-family: var(--font-t); font-weight: 800; text-align: center; font-size: clamp(1.6rem, 4.6vw, 4.2rem); line-height: 1.05; margin-top: 3vh; }
+        .ap-pergunta span { color: var(--gold); text-shadow: 0 0 30px rgba(255,210,74,.55); }
+        .ap-info { margin-top: 2vh; color: var(--mut2); font-weight: 700; letter-spacing: 2px; font-size: clamp(.8rem, 1.4vw, 1.1rem); text-transform: uppercase; }
+
+        /* Lista 10º–4º */
+        .ap-lista-itens { width: min(760px, 94vw); }
+        .ap-li { display: grid; grid-template-columns: 64px 1fr auto; gap: 16px; align-items: center; background: rgba(22,33,61,.9); border: 1px solid var(--line2); border-left: 5px solid var(--cyan); border-radius: 14px; padding: clamp(6px, 1.2vh, 12px) 20px; margin: clamp(4px, .9vh, 9px) 0; opacity: 0; transform: translateX(-80px); }
+        .ap-lista.ativa .ap-li { animation: entraLi .65s cubic-bezier(.2,1.3,.4,1) forwards; }
+        @keyframes entraLi { to { opacity: 1; transform: none; } }
+        .ap-li .lp { font-family: var(--font-t); font-weight: 800; font-size: clamp(1.1rem, 2.2vw, 1.8rem); color: var(--cyan); }
+        .ap-li .ln { font-weight: 800; font-size: clamp(.95rem, 1.7vw, 1.35rem); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .ap-li .ln small { display: block; color: var(--mut2); font-weight: 600; font-size: .7em; text-transform: uppercase; letter-spacing: 1px; }
+        .ap-li .lt { font-family: var(--font-t); font-weight: 800; color: var(--gold); font-size: clamp(1rem, 2vw, 1.6rem); white-space: nowrap; }
+
+        /* Pódio */
+        .ap-podio { flex-direction: row; align-items: flex-end; justify-content: center; gap: clamp(10px, 3vw, 46px); }
+        .ap-slot { display: flex; flex-direction: column; align-items: center; transition: opacity .8s ease, filter .8s ease; position: relative; }
+        .ap-slot.apagado { opacity: .28; filter: grayscale(.7) blur(1px); }
+        .ap-slot-1 { --cor: #ffd24a; --glow: rgba(255,210,74,.75); --w: clamp(165px, 21vw, 300px); --h: clamp(250px, 46vh, 430px); --b: clamp(60px, 13vh, 130px); z-index: 2; }
+        .ap-slot-2 { --cor: #cfd6e4; --glow: rgba(207,214,228,.6); --w: clamp(145px, 17.5vw, 255px); --h: clamp(220px, 39vh, 370px); --b: clamp(42px, 9vh, 92px); }
+        .ap-slot-3 { --cor: #e09155; --glow: rgba(224,145,85,.6); --w: clamp(145px, 17.5vw, 255px); --h: clamp(220px, 39vh, 370px); --b: clamp(28px, 6vh, 62px); }
+        .ap-card { position: relative; width: var(--w); height: var(--h); perspective: 1400px; }
+        .ap-raios { position: absolute; left: 50%; top: 42%; width: 280%; aspect-ratio: 1; z-index: 0; pointer-events: none; opacity: 0; transition: opacity 1.2s ease .5s;
+            background: repeating-conic-gradient(from 0deg, var(--glow) 0deg 7deg, transparent 7deg 22deg);
+            -webkit-mask-image: radial-gradient(circle, #000 12%, transparent 62%); mask-image: radial-gradient(circle, #000 12%, transparent 62%);
+            animation: girarRaios 16s linear infinite; }
+        @keyframes girarRaios { from { transform: translate(-50%,-50%) rotate(0deg); } to { transform: translate(-50%,-50%) rotate(360deg); } }
+        .ap-slot.revelado .ap-raios { opacity: .5; }
+        .ap-slot-1.revelado .ap-raios { opacity: .8; }
+        .ap-gira { position: absolute; inset: 0; z-index: 1; transform-style: preserve-3d; transition: transform 1.1s cubic-bezier(.3,1.35,.5,1); }
+        .ap-slot.revelado .ap-gira { transform: rotateY(180deg); }
+        .ap-face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 22px; display: flex; flex-direction: column; align-items: center; text-align: center; overflow: hidden; padding: 16px 12px; }
+        .ap-frente { justify-content: center; background: linear-gradient(160deg, #1c2a56 0%, #0a1020 100%); border: 2px solid var(--cor); box-shadow: 0 0 34px var(--glow), inset 0 0 40px rgba(0,0,0,.6); }
+        .ap-q { font-family: var(--font-t); font-weight: 800; font-size: calc(var(--h) * .42); line-height: 1; color: var(--cor); text-shadow: 0 0 34px var(--glow); animation: pulsaQ 1.6s ease-in-out infinite; }
+        .ap-frente .ap-poslbl { margin-top: 10px; }
+        .ap-verso { transform: rotateY(180deg); justify-content: flex-start; padding-top: 20px; background: linear-gradient(180deg, #24346a 0%, #0b1224 75%); border: 3px solid var(--cor); box-shadow: 0 0 60px var(--glow), inset 0 0 30px rgba(255,255,255,.05); }
+        .ap-foto { width: calc(var(--w) * .64); aspect-ratio: 1; border-radius: 50%; object-fit: cover; object-position: center 15%; border: 4px solid var(--cor); box-shadow: 0 0 30px var(--glow); background: #0b0f19; flex: 0 0 auto; }
+        .ap-poslbl { margin-top: 12px; font-weight: 900; letter-spacing: 3px; color: var(--cor); font-size: clamp(.75rem, 1.2vw, 1.05rem); }
+        .ap-nome { font-family: var(--font-t); font-weight: 800; font-size: clamp(1.15rem, 2.4vw, 2.2rem); line-height: 1.1; margin-top: 4px; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .ap-fil { color: var(--mut2); font-weight: 700; font-size: clamp(.65rem, 1vw, .9rem); text-transform: uppercase; margin-top: 6px; letter-spacing: 1px; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .ap-pts { margin-top: auto; font-family: var(--font-t); font-weight: 800; font-size: clamp(1.2rem, 2.5vw, 2.3rem); color: var(--cor); text-shadow: 0 0 18px var(--glow); }
+        .ap-base { width: calc(var(--w) + 28px); height: var(--b); margin-top: 14px; border-radius: 12px 12px 0 0; background: linear-gradient(180deg, #1f2e5c, #0a1020); border: 2px solid var(--cor); border-bottom: none; display: flex; justify-content: center; align-items: flex-start; padding-top: 4px; font-family: var(--font-t); font-weight: 800; font-size: calc(var(--b) * .55); line-height: 1; color: var(--cor); text-shadow: 0 0 18px var(--glow); box-shadow: 0 -6px 30px rgba(0,0,0,.4); }
+
+        @media (max-width: 700px) {
+            .ap-slot-1 { --w: 31vw; --h: 36vh; }
+            .ap-slot-2, .ap-slot-3 { --w: 27vw; --h: 31vh; }
+            .ap-face { padding: 10px 6px; }
+            .ap-rodape { left: 10px; right: 10px; }
+            .ap-dica { display: none; }
+        }
+
+        /* ===== TEASER BLACK DAS BLACK'S ===== */
+        .teaser-black { container-type: inline-size; position: relative; overflow: hidden; text-align: center; margin: 14px auto 4px; max-width: 560px; padding: 26px 16px 24px; border-radius: 18px; border: 1px solid rgba(255,255,255,.08);
+            background: radial-gradient(circle at 92% 0%, rgba(214,20,90,.55) 0%, transparent 50%), radial-gradient(circle at 0% 100%, rgba(110,20,170,.6) 0%, transparent 52%), radial-gradient(circle at 100% 100%, rgba(10,120,130,.45) 0%, transparent 45%), #030305;
+            box-shadow: 0 16px 40px rgba(0,0,0,.6), 0 0 40px rgba(214,20,90,.15); }
+        .teaser-black .tb-vem { display: inline-block; font-weight: 900; letter-spacing: .3em; font-size: clamp(.7rem, 3.4cqw, 1rem); color: #fff; background: linear-gradient(90deg, #ff2d75, #a23cff); padding: 5px 14px; border-radius: 30px; box-shadow: 0 0 18px rgba(255,45,117,.55); animation: pulsaQ 1.8s ease-in-out infinite; }
+        .teaser-black .tb-sub { margin-top: 12px; font-weight: 800; letter-spacing: .32em; color: #dfe3ee; font-size: clamp(.6rem, 2.9cqw, .9rem); }
+        .teaser-black .tb-big { font-family: 'Inter', sans-serif; font-weight: 900; line-height: .95; font-size: clamp(2.4rem, 19cqw, 5.5rem); letter-spacing: -.01em;
+            background: linear-gradient(100deg, #8c8c96 0%, #ffffff 35%, #b8b8c4 50%, #ffffff 65%, #8c8c96 100%); background-size: 220% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 14px rgba(255,255,255,.28)); animation: brilho 4s linear infinite; }
+        .teaser-black .tb-das { font-weight: 900; color: #ffd24a; letter-spacing: .3em; font-size: clamp(1rem, 6.5cqw, 1.9rem); margin: 2px 0 0 .3em; text-shadow: 0 0 16px rgba(255,210,74,.6); }
+        .teaser-black .tb-linha { height: 3px; width: 82%; margin: 14px auto 12px; border-radius: 3px; background: linear-gradient(90deg, #22d3ee, #7c3aed, #ff2d55, #ff9f1c, #ffd24a); background-size: 200% 100%; animation: brilho 3s linear infinite; box-shadow: 0 0 12px rgba(255,45,85,.5); }
+        .teaser-black .tb-aguardem { font-weight: 900; letter-spacing: .35em; color: #ffd24a; font-size: clamp(.85rem, 4.6cqw, 1.35rem); margin-left: .35em; animation: piscaAguardem 1.6s ease-in-out infinite; }
+        @keyframes piscaAguardem { 0%,100% { opacity: .55; text-shadow: none; } 50% { opacity: 1; text-shadow: 0 0 18px rgba(255,210,74,.8); } }
+        #lista-filiais .suspense-card { padding: 16px 16px 14px; }
+        #lista-filiais .suspense-card .sc-ico { font-size: 1.8em; margin-bottom: 2px; }
+        .banner-suspense-admin { border-radius: 14px; margin: 0 0 10px !important; max-width: none; width: 100%; padding: 8px 12px; justify-content: space-between; text-align: left; position: relative; z-index: 5; }
+    </style>
+</head>
+<body>
+
+<div id="toast-box"></div>
+
+<div id="topo-geral">
+    <div class="hero" data-html2canvas-ignore="true">
+        <h1 id="titulo-dashboard">🏆 TROFÉU GLOBAL REGIONAL CAMPO BOM - OUTUBRO / 2026 🏆</h1>
+        <p>" Regional com maior número de lojas entregando meta na Diretoria "</p>
+    </div>
+
+    <!-- Navegação -->
+    <div class="tab-container" id="tabContainer" data-html2canvas-ignore="true">
+        <button class="tab-btn active" onclick="trocarAba('ranking')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path></svg>
+            <span>Ranking</span>
+        </button>
+        <button class="tab-btn" onclick="trocarAba('metas')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+            <span>Metas</span>
+        </button>
+        <button class="tab-btn" onclick="trocarAba('regras')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            <span>Regras</span>
+        </button>
+        <button class="tab-btn" onclick="trocarAba('simulador')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="14"></line><line x1="16" y1="18" x2="16" y2="18"></line><line x1="12" y1="14" x2="12" y2="14"></line><line x1="12" y1="18" x2="12" y2="18"></line><line x1="8" y1="14" x2="8" y2="14"></line><line x1="8" y1="18" x2="8" y2="18"></line><line x1="8" y1="10" x2="16" y2="10"></line></svg>
+            <span>Simulador</span>
+        </button>
+    </div>
+</div>
+
+<!-- Banner exibido SOMENTE na imagem compartilhada -->
+<div id="share-banner">
+    <div class="sb-t">🏆 TROFÉU GLOBAL</div>
+    <div class="sb-s" id="sb-sub">REGIONAL CAMPO BOM</div>
+    <div class="sb-g">Regional com maior número de lojas entregando meta na Diretoria</div>
+</div>
+
+<!-- ABA 1: RANKING -->
+<div id="aba-ranking" class="tab-content active">
+    <div class="painel-principal">
+        <div class="secao-podio">
+            <div class="podio podio-2" id="segundo-lugar" title="Clique para comemorar!">
+                <div class="avatar-circle avatar-2" id="avatar-2"></div>
+                <h2 class="pos-num" style="color:var(--silver);font-size:2em;text-shadow:0 0 15px rgba(192,192,192,.8);">2º</h2>
+                <div class="nome-gerente" id="nome-2">Aguardando...</div>
+                <div class="badge-capsula badge-2">
+                    <span class="info-filial-podio" id="filial-2">--</span>
+                    <span class="badge-pontos"><span id="pontos-2">0</span> pts</span>
+                </div>
+            </div>
+            
+            <div class="podio podio-1" id="primeiro-lugar" title="Clique para comemorar!">
+                <div class="trofeu-lado" aria-hidden="true">
+                    <svg viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="gTrofeu" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fff3b0"/><stop offset="45%" stop-color="#ffd24a"/><stop offset="100%" stop-color="#c27a0a"/></linearGradient>
+                            <linearGradient id="gBase" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3a2a12"/><stop offset="100%" stop-color="#17100a"/></linearGradient>
+                        </defs>
+                        <path d="M24 20 H9 C9 42 17 52 29 54" fill="none" stroke="url(#gTrofeu)" stroke-width="6" stroke-linecap="round"/>
+                        <path d="M76 20 H91 C91 42 83 52 71 54" fill="none" stroke="url(#gTrofeu)" stroke-width="6" stroke-linecap="round"/>
+                        <path d="M24 8 H76 V40 C76 62 63 74 50 74 C37 74 24 62 24 40 Z" fill="url(#gTrofeu)"/>
+                        <path d="M31 14 H40 V40 C40 54 44 62 50 67 C40 62 31 54 31 40 Z" fill="#ffffff" opacity=".35"/>
+                        <polygon points="50,23 53.5,31.5 62.5,32.2 55.6,38.1 57.8,46.9 50,42.1 42.2,46.9 44.4,38.1 37.5,32.2 46.5,31.5" fill="#a05a05" opacity=".85"/>
+                        <rect x="44" y="74" width="12" height="15" fill="url(#gTrofeu)"/>
+                        <rect x="31" y="88" width="38" height="8" rx="2.5" fill="url(#gTrofeu)"/>
+                        <rect x="23" y="96" width="54" height="14" rx="3" fill="url(#gBase)" stroke="#ffd24a" stroke-width="1.5"/>
+                        <rect x="39" y="100" width="22" height="6" rx="1.5" fill="#ffd24a" opacity=".9"/>
+                    </svg>
+                </div>
+                <div class="avatar-circle avatar-1" id="avatar-1"></div>
+                <h2 class="pos-num" style="color:var(--gold);font-size:2.3em;text-shadow:0 0 15px rgba(255,215,0,.8);">1º</h2>
+                <div class="nome-gerente" id="nome-1">Lendo...</div>
+                <div class="badge-capsula badge-1">
+                    <span class="info-filial-podio" id="filial-1">--</span>
+                    <span class="badge-pontos"><span id="pontos-1">0</span> pts</span>
+                </div>
+            </div>
+
+            <div class="podio podio-3" id="terceiro-lugar" title="Clique para vibrar!">
+                <div class="avatar-circle avatar-3" id="avatar-3"></div>
+                <h2 class="pos-num" style="color:var(--bronze);font-size:1.8em;text-shadow:0 0 15px rgba(205,127,50,.8);">3º</h2>
+                <div class="nome-gerente" id="nome-3">Aguardando...</div>
+                <div class="badge-capsula badge-3">
+                    <span class="info-filial-podio" id="filial-3">--</span>
+                    <span class="badge-pontos"><span id="pontos-3">0</span> pts</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="secao-lista-wrapper">
+            <div id="banner-suspense-admin" class="banner-suspense-admin" data-html2canvas-ignore="true">
+                <span>🔒 <b>Suspense ativo</b> — só você vê o resultado.</span>
+                <button class="btn-top10 btn-apresentar" onclick="abrirApresentacao()">🎬 Apresentar</button>
+            </div>
+            <input type="text" id="busca-ranking" class="busca-ranking" placeholder="🔍 Pesquisar filial, cidade ou gerente..." onkeyup="filtrarSelecao('ranking')" data-html2canvas-ignore="true">
+            <div class="secao-lista" id="lista-filiais">
+                <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+            </div>
+            <div id="texto-carregando">Conectando à planilha e sincronizando... 🚀</div>
+            <div id="aviso-erro"></div>
+        </div>
+    </div>
+</div>
+
+<!-- ABA 2: VISUALIZAR METAS -->
+<div id="aba-metas" class="tab-content">
+    <div class="container-metas">
+        <div id="metas-suspense" style="display:none;margin-top:30px;">
+            <div class="teaser-black">
+                <div class="tb-vem">✦ VEM AÍ ✦</div>
+                <div class="tb-sub">TROFÉU GLOBAL • EDIÇÃO</div>
+                <div class="tb-big">BLACK</div>
+                <div class="tb-das">DAS</div>
+                <div class="tb-big">BLACK'S</div>
+                <div class="tb-linha"></div>
+                <div class="tb-aguardem">AGUARDEM!</div>
+            </div>
+        </div>
+        <div class="toolbar-metas">
+            <input type="text" id="busca-metas" class="busca-ranking" placeholder="🔍 Filtrar filial ou cidade..." oninput="renderTabelaMetas(false)">
+        </div>
+        <div class="tabela-container-scroll">
+            <table class="tabela-metas" id="tabela-grid-metas">
+                <thead>
+                    <tr>
+                        <th data-key="rank">FILIAL <span class="cidade-tabela">/ CIDADE</span></th>
+                        <th data-key="nps">NPS <span style="color:var(--orange);">HABILITADOR</span></th>
+                        <th data-key="vendas">Vendas <span>25 PTS</span></th>
+                        <th data-key="crescimento">Cresc. <span>15 PTS</span></th>
+                        <th data-key="servicos110">Serv 115% <span>15 PTS</span></th>
+                        <th data-key="cartao">Cartão 105% <span>15 PTS</span></th>
+                        <th data-key="cdc">CDC <span>10 PTS</span></th>
+                        <th data-key="consorcio">Consórcio <span>10 PTS</span></th>
+                        <th data-key="conecta">CONECTA <span>5 PTS</span></th>
+                        <th data-key="plano">PLANO <span>5 PTS</span></th>
+                        <th data-key="vendaRemota">V. Remota <span style="color:var(--green);">+5 EX</span></th>
+                        <th data-key="totalPts" style="color:var(--gold);font-size:1.05em;">Pontos <span>100 PTS</span></th>
+                    </tr>
+                </thead>
+                <tbody id="corpo-tabela-metas"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- ABA 3: REGRAS TROFÉU -->
+<div id="aba-regras" class="tab-content">
+    <div class="container-metas" style="display:flex;justify-content:center;padding:10px;">
+        <div class="regra-frame" onclick="abrirLightbox()">
+            <img id="img-regras" src="https://drive.google.com/thumbnail?id=1k_wsAsVQcj-z1OcDp-UsVyNUmPsFatJb&sz=w1600" alt="Regras do Troféu">
+            <span class="regra-dica">🔍 Toque para ampliar</span>
+        </div>
+    </div>
+</div>
+<div id="lightbox" onclick="fecharLightbox()"><img id="lightbox-img" alt="Regras do Troféu ampliada"></div>
+
+<!-- ABA 4: SIMULADOR DE GANHO NSL -->
+<div id="aba-simulador" class="tab-content">
+    <div class="container-metas">
+
+        <!-- LOGIN -->
+        <div id="tela-login-simulador" style="display:none;text-align:center;">
+            <div class="card-maximized">
+                <div class="lock-ico">🔒</div>
+                <h3 style="color:var(--cyan);font-family:var(--font-t);">ACESSO RESTRITO</h3>
+
+                <div id="form-login">
+                    <p style="color:var(--mut2);">O Simulador é privado. Faça login com seu e-mail corporativo.</p>
+                    <input type="email" id="login-email" class="input-login" placeholder="E-mail Corporativo" autocomplete="username">
+                    <input type="password" id="login-senha" class="input-login" placeholder="Sua Senha" autocomplete="current-password">
+                    <button onclick="realizarLogin()" class="btn-top10" style="width:100%;">Entrar</button>
+                    <div style="margin-top:20px;display:flex;justify-content:center;gap:10px;flex-wrap:wrap;">
+                        <button class="link-senha" onclick="mostrarTelaSolicitarToken('criar')">Primeiro Acesso?</button> |
+                        <button class="link-senha" onclick="mostrarTelaSolicitarToken('esqueci')">Esqueci a Senha</button>
+                    </div>
+                </div>
+
+                <div id="form-solicitar-token" style="display:none;">
+                    <p style="color:var(--mut2);">Digite seu e-mail corporativo para receber o Token de 4 dígitos.</p>
+                    <input type="email" id="token-email" class="input-login" placeholder="gerenteXXX@magazineluiza.com.br">
+                    <button id="btn-enviar-token" onclick="enviarToken()" class="btn-top10" style="width:100%;background:linear-gradient(135deg,#00d98b 0%,#1a2a6c 100%);">Enviar Token Seguro</button>
+                    <div style="margin-top:20px;"><button class="link-senha" onclick="mostrarTelaLogin()">Voltar para Login</button></div>
+                </div>
+
+                <div id="form-criar-senha" style="display:none;">
+                    <p style="color:var(--mut2);">Token enviado! Digite o código recebido no e-mail abaixo e crie sua nova senha.</p>
+                    <input type="text" id="token-codigo" class="input-login" placeholder="Token de 4 dígitos" maxlength="4" inputmode="numeric" style="letter-spacing:6px;font-size:1.5em;font-weight:800;color:var(--gold);">
+                    <input type="password" id="nova-senha" class="input-login" placeholder="Crie sua nova senha" autocomplete="new-password">
+                    <button onclick="validarTokenECriarSenha()" class="btn-top10" style="width:100%;">Salvar e Entrar</button>
+                    <div style="margin-top:20px;">
+                        <button class="link-senha" onclick="mostrarTelaSolicitarToken('esqueci')">Reenviar Token</button> |
+                        <button class="link-senha" onclick="mostrarTelaLogin()">Cancelar</button>
+                    </div>
+                </div>
+
+                <p id="erro-login" style="color:var(--red);display:none;margin-top:15px;font-weight:700;"></p>
+            </div>
+        </div>
+
+        <!-- ADMIN -->
+        <div id="tela-selecao-simul" class="tela-selecao" style="display:none;">
+            <div style="display:flex;justify-content:center;margin-bottom:10px;gap:15px;flex-wrap:wrap;">
+                <button class="btn-voltar btn-logout" id="btn-logout-admin" onclick="deslogarSimulador()">Sair do Modo Admin</button>
+                <button class="btn-top10 btn-apresentar" onclick="abrirApresentacao()">🎬 Modo Apresentação</button>
+                <button class="btn-top10" onclick="abrirTelaComparativo()">⚖️ Comparativo de Lojas</button>
+            </div>
+            <div class="placeholder-compacto">
+                <strong>👑 MODO ADMINISTRADOR</strong> — selecione uma filial para projetar o Salário Variável individual.
+            </div>
+            <div class="secao-lista-wrapper">
+                <input type="text" id="busca-simul" class="busca-ranking" placeholder="🔍 Pesquisar filial ou cidade..." onkeyup="filtrarSelecao('simul')">
+                <div class="secao-lista" id="lista-selecao-simul"></div>
+            </div>
+        </div>
+
+        <!-- SIMULADOR INDIVIDUAL -->
+        <div id="tela-detalhe-simul" class="tela-detalhe">
+            <div class="topbar-detalhe" id="topbar-simulador" data-html2canvas-ignore="true"></div>
+            <div class="card-maximized" id="cardDetalheSimulador"></div>
+        </div>
+
+        <!-- COMPARATIVO -->
+        <div id="tela-comparativo-simul" class="tela-detalhe" style="display:none;">
+            <div class="topbar-detalhe" data-html2canvas-ignore="true">
+                <button class="btn-voltar" onclick="fecharComparativoAdmin()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg> Voltar para Menu Admin
+                </button>
+            </div>
+            <div class="card-maximized" style="max-width:800px;margin-bottom:25px;text-align:center;padding:25px;">
+                <h3 style="color:var(--cyan);margin-top:0;font-family:var(--font-t);">⚖️ COMPARATIVO LADO A LADO</h3>
+                <p style="color:var(--mut2);margin-bottom:20px;">Selecione duas filiais para projetar e comparar os ganhos.</p>
+                <div style="display:flex;gap:15px;justify-content:center;align-items:center;flex-wrap:wrap;margin-bottom:20px;">
+                    <select id="comp-loja-1" class="input-login" style="width:auto;min-width:250px;margin:0;"></select>
+                    <span style="font-weight:900;color:var(--gold);font-size:1.2em;">VS</span>
+                    <select id="comp-loja-2" class="input-login" style="width:auto;min-width:250px;margin:0;"></select>
+                </div>
+                <button class="btn-top10" onclick="gerarComparativo()" style="width:100%;max-width:300px;">Simular Comparativo</button>
+            </div>
+            <div class="comparativo-container" id="container-comparativo-cards"></div>
+        </div>
+
+    </div>
+</div>
+
+<!-- BOTÃO INSTAGRAM -->
+<div class="share-container" data-html2canvas-ignore="true">
+    <div class="share-menu" id="shareMenu">
+        <button class="share-option" onclick="gerarImagem('feed')"><span>⬛</span> Post para Feed (1:1)</button>
+        <button class="share-option" onclick="gerarImagem('stories')"><span>📱</span> Post para Stories (9:16)</button>
+    </div>
+    <button class="share-btn" onclick="toggleShareMenu()" title="Compartilhar no Instagram" aria-label="Compartilhar no Instagram">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" fill="white"/></svg>
+    </button>
+</div>
+
+<!-- MODO APRESENTAÇÃO (admin) -->
+<div id="apresentacao" data-html2canvas-ignore="true">
+    <div class="ap-luzes"></div>
+    <div class="ap-palco" id="ap-palco"></div>
+    <div class="ap-vinheta"></div>
+    <div class="ap-topo">
+        <div class="ap-sub" id="ap-sub"></div>
+        <div class="ap-titulo" id="ap-titulo"></div>
+    </div>
+    <div class="ap-rodape">
+        <span class="ap-dica" id="ap-dica"></span>
+        <div class="ap-ctrl">
+            <button onclick="apTelaCheia()">⛶ Tela cheia (F)</button>
+            <button onclick="fecharApresentacao()">✕ Sair (ESC)</button>
+        </div>
+    </div>
+    <div class="ap-flash" id="ap-flash"></div>
+</div>
+
+<audio id="som-vitoria" src="senna.mp3" preload="auto"></audio>
+
+<script>
+/* =========================================================
+   CONFIGURAÇÃO CENTRAL
+   ========================================================= */
+const URL_WEB_APP = 'https://script.google.com/macros/s/AKfycbxxXG4d21zN0IIevrrZmTWGu-Jyk5A-ZKvVsNHbn0cScsuW6A2DweT9Nl6wi7EyFcSR/exec';
+let tokenAtivo = null, emailEmProcesso = null, ordenacao = { key: 'rank', dir: 1 };
+let listaCompletaFiliais = [];
+
+const EMAILS_ADMIN = [
+    'alr_soares@magazineluiza.com.br',
+    'dirlei.dresch@magazineluiza.com.br',
+    'pr_queiroz@magazineluiza.com.br',
+    'alexia.vargas@consorciomagalu.com.br'
+];
+const FILIAIS_EXCLUIDAS = ['1123', '1131', '1138', '1139', '1503'];
+const NPS_MINIMO_RANKING = 85;
+const audioOuro = document.getElementById('som-vitoria');
+const CACHE_KEY = 'dadosTrofeu_Memoria_v85';
+
+/* =========================================================
+   🔒 MODO SUSPENSE
+   ativo: true  → o público NÃO vê pódio, ranking nem pontos (só admins veem).
+                  Deixe true enquanto atualiza a planilha e até a premiação.
+   ativo: false → tudo liberado. Volte para false depois da apresentação.
+   mes / ano    → mês que está sendo apurado (aparece no título).
+   ========================================================= */
+const SUSPENSE = { ativo: true, mes: 'OUTUBRO', ano: 2026 };
+function isAdmin() { try { return localStorage.getItem('gerente_filial_logada_trofeu') === 'ADMIN'; } catch (e) { return false; } }
+function rankingOculto() { return SUSPENSE.ativo && !isAdmin(); }
+
+/* TÍTULO DINÂMICO AUTOMATIZADO PARA O DIA 3 */
+(function () {
+    const dt = new Date();
+    let mesAtual = dt.getMonth(); 
+    let anoAtual = dt.getFullYear();
+    
+    // Se hoje for dia 1 ou 2, volta 1 mês para continuar mostrando o mês passado
+    if (dt.getDate() < 3) { 
+        mesAtual--; 
+        if (mesAtual < 0) { 
+            mesAtual = 11; 
+            anoAtual--; 
+        } 
+    }
+    
+    const nomesMeses = ['JANEIRO','FEVEREIRO','MARÇO','ABRIL','MAIO','JUNHO','JULHO','AGOSTO','SETEMBRO','OUTUBRO','NOVEMBRO','DEZEMBRO'];
+    const MES_REFERENCIA = SUSPENSE.ativo ? SUSPENSE.mes : nomesMeses[mesAtual];
+    if (SUSPENSE.ativo) anoAtual = SUSPENSE.ano;
+    window.MES_TITULO = MES_REFERENCIA + ' ' + anoAtual;
+    
+    document.getElementById('titulo-dashboard').innerText = `🏆 TROFÉU GLOBAL REGIONAL CAMPO BOM - ${MES_REFERENCIA} / ${anoAtual} 🏆`;
+    document.getElementById('sb-sub').innerText = `REGIONAL CAMPO BOM • ${MES_REFERENCIA} ${anoAtual}`;
+    document.title = `Troféu Global Regional Campo Bom - ${MES_REFERENCIA} ${anoAtual}`;
+})();
+
+function escapeHtml(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function moeda(v) { return (v || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+
+function showToast(msg, tipo = 'info', ms = 4200) {
+    const box = document.getElementById('toast-box');
+    const t = document.createElement('div');
+    t.className = 'toast ' + (tipo === 'ok' ? 'ok' : tipo === 'erro' ? 'erro' : '');
+    t.innerText = msg;
+    box.appendChild(t);
+    setTimeout(() => { t.style.transition = 'opacity .4s'; t.style.opacity = '0'; setTimeout(() => t.remove(), 450); }, ms);
+}
+
+function criarEfeitosFundo() {
+    const bg = document.createElement('div'); 
+    bg.className = 'bg-efeito-dourado'; 
+    document.body.prepend(bg);
+    const mobile = window.innerWidth < 700; 
+    const nB = mobile ? 12 : 25, nC = mobile ? 18 : 35;
+    
+    for (let i = 0; i < nB; i++) {
+        let p = document.createElement('div'); 
+        p.className = 'particula-bokeh';
+        let size = Math.random() * 25 + 10; 
+        p.style.width = size + 'px'; 
+        p.style.height = size + 'px';
+        p.style.left = Math.random() * 100 + 'vw'; 
+        p.style.animationDuration = (Math.random() * 20 + 10) + 's, ' + (Math.random() * 3 + 2) + 's'; 
+        p.style.animationDelay = '-' + (Math.random() * 20) + 's'; 
+        bg.appendChild(p);
+    }
+    const cores = ['#ffd700', '#ffcc00', '#d4af37', '#fffacd'];
+    for (let i = 0; i < nC; i++) {
+        let c = document.createElement('div'); 
+        c.className = 'confete-bg';
+        c.style.left = Math.random() * 100 + 'vw'; 
+        c.style.background = cores[Math.floor(Math.random() * cores.length)];
+        
+        if (Math.random() > 0.5) { 
+            c.style.width = (Math.random() * 5 + 3) + 'px'; 
+            c.style.height = (Math.random() * 12 + 6) + 'px'; 
+        } else { 
+            let s = (Math.random() * 6 + 3) + 'px'; 
+            c.style.width = s; 
+            c.style.height = s; 
+            c.style.borderRadius = '50%'; 
+        }
+        c.style.animationDuration = (Math.random() * 12 + 8) + 's'; 
+        c.style.animationDelay = '-' + (Math.random() * 15) + 's'; 
+        bg.appendChild(c);
+    }
+}
+criarEfeitosFundo();
+
+function medirTopo() { 
+    const t = document.getElementById('topo-geral'); 
+    if (t && t.offsetHeight > 0) document.documentElement.style.setProperty('--topo-h', t.offsetHeight + 'px'); 
+}
+window.addEventListener('resize', medirTopo); 
+window.addEventListener('load', medirTopo);
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(medirTopo);
+
+function registrarAcesso(filial) {
+    if (filial === 'ADMIN' || sessionStorage.getItem('log_enviado_' + filial)) return;
+    try { 
+        fetch(URL_WEB_APP, { 
+            method: 'POST', 
+            mode: 'no-cors', 
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, 
+            body: `action=log_acesso&filial=${encodeURIComponent(filial)}`
+        }); 
+        sessionStorage.setItem('log_enviado_' + filial, 'true'); 
+    } catch (e) {}
+}
+
+function mostrarErro(m) { let el = document.getElementById('erro-login'); el.innerText = m; el.style.display = 'block'; }
+function esconderErro() { document.getElementById('erro-login').style.display = 'none'; }
+
+function mostrarTelaLogin() { 
+    esconderErro(); 
+    document.getElementById('form-login').style.display = 'block'; 
+    document.getElementById('form-solicitar-token').style.display = 'none'; 
+    document.getElementById('form-criar-senha').style.display = 'none'; 
+}
+
+function mostrarTelaSolicitarToken() { 
+    esconderErro(); 
+    document.getElementById('form-login').style.display = 'none'; 
+    document.getElementById('form-solicitar-token').style.display = 'block'; 
+    document.getElementById('form-criar-senha').style.display = 'none'; 
+    document.getElementById('token-email').value = document.getElementById('login-email').value; 
+}
+
+async function enviarToken() {
+    esconderErro(); 
+    let email = document.getElementById('token-email').value.trim().toLowerCase();
+    
+    if (EMAILS_ADMIN.includes(email)) { 
+        localStorage.setItem('gerente_filial_logada_trofeu', 'ADMIN'); 
+        verificarLoginSimulador(); 
+        return; 
+    }
+    
+    let m = email.match(/^gerente(\d+)@magazineluiza\.com\.br$/);
+    if (m && m[1]) {
+        if (listaCompletaFiliais.find(s => s.numFilial === m[1])) {
+            let btn = document.getElementById('btn-enviar-token'); 
+            btn.innerText = 'Enviando...'; 
+            btn.disabled = true;
+            tokenAtivo = Math.floor(1000 + Math.random() * 9000).toString(); 
+            emailEmProcesso = email;
+            
+            try {
+                await fetch(URL_WEB_APP, { 
+                    method: 'POST', 
+                    mode: 'no-cors', 
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, 
+                    body: `action=send_token&email=${encodeURIComponent(email)}&token=${tokenAtivo}`
+                });
+                btn.innerText = 'Enviar Token Seguro'; 
+                btn.disabled = false;
+                document.getElementById('form-solicitar-token').style.display = 'none'; 
+                document.getElementById('form-criar-senha').style.display = 'block';
+            } catch (e) { 
+                mostrarErro('Erro de conexão.'); 
+                btn.innerText = 'Enviar Token Seguro'; 
+                btn.disabled = false; 
+            }
+        } else { 
+            mostrarErro('Filial não encontrada.'); 
+        }
+    } else { 
+        mostrarErro('E-mail inválido.'); 
+    }
+}
+
+function validarTokenECriarSenha() {
+    esconderErro(); 
+    let t = document.getElementById('token-codigo').value.trim();
+    let s = document.getElementById('nova-senha').value.trim();
+    
+    if (t !== tokenAtivo) return mostrarErro('Token incorreto.');
+    if (s.length < 4) return mostrarErro('Mínimo 4 caracteres.');
+    
+    let c = JSON.parse(localStorage.getItem('cofre_senhas_trofeu')) || {}; 
+    c[emailEmProcesso] = s; 
+    localStorage.setItem('cofre_senhas_trofeu', JSON.stringify(c));
+    localStorage.setItem('gerente_filial_logada_trofeu', emailEmProcesso.match(/^gerente(\d+)@magazineluiza\.com\.br$/)[1]);
+    verificarLoginSimulador();
+}
+
+function realizarLogin() {
+    esconderErro(); 
+    let email = document.getElementById('login-email').value.trim().toLowerCase();
+    let s = document.getElementById('login-senha').value.trim();
+    
+    if (EMAILS_ADMIN.includes(email)) { 
+        localStorage.setItem('gerente_filial_logada_trofeu', 'ADMIN'); 
+        verificarLoginSimulador(); 
+        return; 
+    }
+    
+    let m = email.match(/^gerente(\d+)@magazineluiza\.com\.br$/);
+    if (m && m[1]) {
+        let c = JSON.parse(localStorage.getItem('cofre_senhas_trofeu')) || {};
+        if (c[email] && c[email] === s) { 
+            localStorage.setItem('gerente_filial_logada_trofeu', m[1]); 
+            verificarLoginSimulador(); 
+        } else if (!c[email]) { 
+            mostrarErro('Usuário não cadastrado.'); 
+        } else { 
+            mostrarErro('Senha incorreta.'); 
+        }
+    } else { 
+        mostrarErro('E-mail inválido.'); 
+    }
+}
+
+function verificarLoginSimulador() {
+    reaplicarVisibilidade();
+    let f = localStorage.getItem('gerente_filial_logada_trofeu');
+    if (f) {
+        document.getElementById('tela-login-simulador').style.display = 'none';
+        if (f === 'ADMIN') { 
+            document.getElementById('tela-selecao-simul').style.display = 'block'; 
+            document.getElementById('tela-detalhe-simul').style.display = 'none'; 
+            document.getElementById('tela-comparativo-simul').style.display = 'none'; 
+        } else { 
+            if (listaCompletaFiliais.find(s => s.numFilial === f)) { 
+                document.getElementById('tela-selecao-simul').style.display = 'none'; 
+                document.getElementById('tela-comparativo-simul').style.display = 'none'; 
+                abrirDetalheSimulador(f); 
+                registrarAcesso(f); 
+            } else { 
+                deslogarSimulador(); 
+            } 
+        }
+    } else { 
+        mostrarTelaLogin(); 
+        document.getElementById('tela-login-simulador').style.display = 'block'; 
+        document.getElementById('tela-selecao-simul').style.display = 'none'; 
+        document.getElementById('tela-detalhe-simul').style.display = 'none'; 
+        document.getElementById('tela-comparativo-simul').style.display = 'none'; 
+    }
+}
+
+function deslogarSimulador() { 
+    document.getElementById('topo-geral').style.display = ''; 
+    localStorage.removeItem('gerente_filial_logada_trofeu'); 
+    document.getElementById('login-senha').value = ''; 
+    verificarLoginSimulador(); 
+}
+
+function fecharDetalheSimuladorAdmin() { 
+    document.getElementById('topo-geral').style.display = ''; 
+    document.getElementById('tela-detalhe-simul').style.display = 'none'; 
+    document.getElementById('tela-selecao-simul').style.display = 'block'; 
+}
+
+[['login-email', realizarLogin], ['login-senha', realizarLogin], ['token-email', enviarToken], ['token-codigo', validarTokenECriarSenha], ['nova-senha', validarTokenECriarSenha]].forEach(([id, fn]) => { 
+    let el = document.getElementById(id); 
+    if(el) el.addEventListener('keydown', e => { if (e.key === 'Enter') fn(); }) 
+});
+
+function getSalarioBaseGerente(m) { 
+    if (m <= 172500) return 1313; 
+    if (m <= 224250) return 1509; 
+    if (m <= 291525) return 1736; 
+    if (m <= 378983) return 1996; 
+    if (m <= 492677) return 2296; 
+    return 2640; 
+}
+function getMultiplicadorGerente(p) { 
+    if (p < 90) return 0; 
+    if (p < 92.5) return 0.30; 
+    if (p < 95) return 0.50; 
+    if (p < 96) return 0.75; 
+    if (p < 97) return 0.80; 
+    if (p < 98) return 0.85; 
+    if (p < 103) return 1.00; 
+    if (p < 106) return 1.05; 
+    if (p < 109) return 1.10; 
+    if (p < 112) return 1.15; 
+    if (p < 115) return 1.20; 
+    return 1.25; 
+}
+function getMultiplicadorNps(n) { 
+    if (n < 75) return 0; 
+    if (n < 90) return 1.00; 
+    return 1.20; 
+}
+
+function trocarAba(n) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(a => a.classList.remove('active'));
+    const i = { ranking: 0, metas: 1, regras: 2, simulador: 3 }[n];
+    
+    document.querySelector('.share-container').style.display = n === 'ranking' ? 'flex' : 'none';
+    document.querySelectorAll('.tab-btn')[i].classList.add('active');
+    document.getElementById('aba-' + n).classList.add('active');
+    
+    if (n === 'metas') setTimeout(() => iniciarAnimacoes(document.getElementById('aba-metas')), 100);
+    if (n === 'simulador') verificarLoginSimulador();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function abrirLightbox() { 
+    document.getElementById('lightbox-img').src = document.getElementById('img-regras').src; 
+    document.getElementById('lightbox').classList.add('show'); 
+}
+function fecharLightbox() { 
+    document.getElementById('lightbox').classList.remove('show'); 
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') fecharLightbox(); });
+
+function obterUrlImagem(u) { 
+    if (!u) return ''; 
+    let s = u.toString().trim(); 
+    if (s.includes('drive.google.com')) { 
+        let i = s.includes('/d/') ? s.split('/d/')[1].split('/')[0] : (s.includes('id=') ? s.split('id=')[1].split('&')[0] : ''); 
+        if (i) return `https://lh3.googleusercontent.com/d/${i}=w800-h800-p`; 
+    } 
+    return s; 
+}
+function extrairNumero(v, p = false) { 
+    if (v == null || v === '') return 0; 
+    if (typeof v === 'number') return p ? v * 100 : v; 
+    let s = v.toString().trim().replace('%', '').replace('R$', '').trim(); 
+    if (s.includes(',') && s.includes('.')) { 
+        let uP = s.lastIndexOf('.'), uV = s.lastIndexOf(','); 
+        if (uV > uP) s = s.replace(/\./g, '').replace(',', '.'); else s = s.replace(/,/g, ''); 
+    } else if (s.includes(',')) s = s.replace(',', '.'); 
+    let n = parseFloat(s); return isNaN(n) ? 0 : n; 
+}
+function getValorLimpoParaCor(v) { return Math.round(extrairNumero(v, true) * 100) / 100; }
+function limparChave(v) { return !v ? '' : v.toString().replace(/\D/g, ''); }
+function formatarNome(n) { 
+    if (!n) return "Equipe"; 
+    let p = n.trim().split(" "); 
+    return p[0].charAt(0).toUpperCase() + p[0].slice(1).toLowerCase(); 
+}
+function criarTdPerc(v, l) { 
+    let n = extrairNumero(v); 
+    if (n === 0 && (v === undefined || v === '')) return `<td class="val-ruim">-</td>`; 
+    let c = getValorLimpoParaCor(v); 
+    return `<td class="${c >= l ? 'val-bom' : 'val-ruim'}"><span class="animar-numero" data-valor="${c}" data-tipo="perc">0%</span></td>`; 
+}
+
+function formatarValorAnimacao(n, t, m) { 
+    if (m) return n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); 
+    if (t === 'perc' || t === 'nps') return n.toFixed(1).replace('.', ','); 
+    return n.toFixed(0); 
+}
+
+function iniciarAnimacoes(r = document, a = true) { 
+    r.querySelectorAll('.animar-numero').forEach(el => { 
+        let f = parseFloat(el.getAttribute('data-valor')) || 0;
+        let t = el.getAttribute('data-tipo');
+        let m = el.getAttribute('data-monetario') === 'true'; 
+        
+        const w = v => { 
+            let s = formatarValorAnimacao(v, t, m); 
+            el.innerText = t === 'perc' ? s + '%' : s; 
+        }; 
+        
+        if (!a) { w(f); return; } 
+        
+        let d = 1500, i = null; 
+        function p(ts) { 
+            if (!i) i = ts; 
+            let pr = Math.min((ts - i) / d, 1); 
+            w(f * (1 - Math.pow(1 - pr, 3))); 
+            if (pr < 1) requestAnimationFrame(p); else w(f); 
+        } 
+        requestAnimationFrame(p); 
+    }); 
+}
+
+function animarAneisEBarras(r) { 
+    setTimeout(() => { 
+        r.querySelectorAll('.ring-fg').forEach(c => { 
+            const cl = 2 * Math.PI * 54; 
+            c.style.strokeDasharray = cl; 
+            c.style.strokeDashoffset = cl * (1 - parseFloat(c.dataset.pct || 0)); 
+        }); 
+        r.querySelectorAll('.comp-linha .cb i').forEach(b => { 
+            b.style.width = b.dataset.w + '%'; 
+        }); 
+    }, 80); 
+}
+
+function criarTextoFlutuante(e, txt, cor) { 
+    const el = document.createElement('div'); 
+    el.innerText = txt; 
+    el.style.position = 'fixed'; 
+    let x = e.clientX, m = 140; 
+    
+    if (x < m) x = m; 
+    if (x > window.innerWidth - m) x = window.innerWidth - m; 
+    
+    el.style.left = x + 'px'; 
+    el.style.top = (e.clientY - 20) + 'px'; 
+    el.style.color = cor; 
+    el.style.fontSize = window.innerWidth < 600 ? '22px' : '28px'; 
+    el.style.fontWeight = '900'; 
+    el.style.fontFamily = "'Sora','Inter',sans-serif"; 
+    el.style.textShadow = '0px 4px 10px rgba(0,0,0,.8)'; 
+    el.style.pointerEvents = 'none'; 
+    el.style.zIndex = '9999'; 
+    el.style.textAlign = 'center'; 
+    el.style.whiteSpace = 'nowrap'; 
+    el.style.transition = 'transform 2.5s ease-out, opacity 2s ease-in 0.5s'; 
+    el.style.transform = 'translate(-50%, 0) scale(1)'; 
+    el.style.opacity = '1'; 
+    
+    document.body.appendChild(el); 
+    
+    requestAnimationFrame(() => setTimeout(() => { 
+        el.style.transform = 'translate(-50%, -150px) scale(1.2)'; 
+        el.style.opacity = '0'; 
+    }, 50)); 
+    
+    setTimeout(() => el.remove(), 3000); 
+}
+
+document.getElementById('primeiro-lugar').addEventListener('click', e => { 
+    audioOuro.currentTime = 0; audioOuro.play().catch(()=>{}); 
+    confetti({ particleCount: 140, spread: 85, origin: { y: 0.6 }, colors: ['#ffd700', '#22d3ee', '#ffffff'] }); 
+    criarTextoFlutuante(e, "GERENTE GLOBAL!!", "#ffd700"); 
+});
+document.getElementById('segundo-lugar').addEventListener('click', e => { 
+    audioOuro.pause(); 
+    confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#C0C0C0', '#E0E0E0', '#ffffff'] }); 
+    criarTextoFlutuante(e, "ACELERAA!", "#C0C0C0"); 
+});
+document.getElementById('terceiro-lugar').addEventListener('click', e => { 
+    audioOuro.pause(); 
+    confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#CD7F32', '#D2691E', '#ff7b00'] }); 
+    criarTextoFlutuante(e, "BORAA SUBIR!", "#CD7F32"); 
+});
+
+function filtrarSelecao(c) { 
+    let cx = document.getElementById('busca-' + c); 
+    if (!cx) return; 
+    let fl = cx.value.toLowerCase().trim(); 
+    
+    document.querySelectorAll(c === 'simul' ? '#lista-selecao-simul .item-lista' : '#lista-filiais .item-lista').forEach(i => { 
+        let tx = ((i.dataset.busca || '') + ' ' + i.querySelector('.nome-filial').innerText).toLowerCase(); 
+        i.style.display = tx.includes(fl) ? 'flex' : 'none'; 
+    }); 
+}
+
+function calcularSimulacao(f) {
+    let mv = getMultiplicadorGerente(getValorLimpoParaCor(f.vendas));
+    let mr = getMultiplicadorGerente(getValorLimpoParaCor(f.vendaRemota));
+    let mi = getMultiplicadorGerente(getValorLimpoParaCor(f.ippProj));
+    let mp = getMultiplicadorGerente(getValorLimpoParaCor(f.servicos110));
+    let mn = getMultiplicadorNps(f.nps);
+    let mf = f.fppElegivel ? 1.00 : 0.00;
+    
+    let pv = 35 * mv, pr = 10 * mr, pi = 15 * mi, pp = 20 * mp, pn = 10 * mn, pf = 10 * mf;
+    let tPts = pv + pr + pi + pp + pn + pf;
+    
+    let vB = getSalarioBaseGerente(f.metaFaturamento);
+    let sNsl = vB * (tPts / 100);
+    let mult = vB / 100;
+    
+    let pVNSL = (35 * 1.25 * mult) - (pv * mult);
+    let pRNSL = (10 * 1.25 * mult) - (pr * mult);
+    let pINSL = (15 * 1.25 * mult) - (pi * mult);
+    let pPNSL = (20 * 1.25 * mult) - (pp * mult);
+    let pNNSL = (10 * 1.20 * mult) - (pn * mult);
+    let pFNSL = (10 * 1.00 * mult) - (pf * mult);
+    
+    let bC = getValorLimpoParaCor(f.cartao) >= 105;
+    let bD = getValorLimpoParaCor(f.conecta) >= 100 && getValorLimpoParaCor(f.plano) >= 100;
+    let bV = getValorLimpoParaCor(f.vendas) >= 100;
+    let p10 = getValorLimpoParaCor(f.servicos110);
+    let b3 = getValorLimpoParaCor(f.venda3p) >= 100;
+    
+    let pC = bC ? 300 : 0;
+    let pD = bD ? 300 : 0;
+    let pM = (bV && b3) ? 600 : 0;
+    
+    let txtP10 = 'NÃO ATIVADO', corP10 = '#ff5470', pP10 = 0;
+    
+    if (bV) { 
+        if (p10 >= 115) { txtP10 = 'TRIPLICADO (3X)'; corP10 = '#34f5a0'; pP10 = 1500; } 
+        else if (p10 >= 110) { txtP10 = 'DOBRADO (2X)'; corP10 = '#34f5a0'; pP10 = 1000; } 
+        else if (p10 >= 100) { txtP10 = 'ATINGIDO (1X)'; corP10 = '#34f5a0'; pP10 = 500; } 
+    }
+    
+    let tS = sNsl + pC + pD + pP10 + pM;
+    let pCE = bC ? 0 : 300;
+    let pDE = bD ? 0 : 300;
+    let pME = (bV && b3) ? 0 : 600;
+    let pPE = 1500 - pP10;
+    let tP = pVNSL + pRNSL + pINSL + pPNSL + pNNSL + pFNSL + pCE + pDE + pME + pPE;
+    
+    return { 
+        ptsVendas: pv, ptsRemota: pr, ptsIpp: pi, ptsPula10: pp, ptsNps: pn, ptsFpp: pf, 
+        totalPontosNsl: tPts, valorBase: vB, salarioNsl: sNsl, 
+        perdaVendasNSL: pVNSL, perdaRemotaNSL: pRNSL, perdaIppNSL: pINSL, perdaPula10NSL: pPNSL, perdaNpsNSL: pNNSL, perdaFppNSL: pFNSL, 
+        bateuCartao: bC, bateuServDigital: bD, bateuVenda: bV, bateu3P: b3, 
+        premioCartao: pC, premioDigital: pD, premioMarketplace: pM, premioPula10: pP10, 
+        txtPula10: txtP10, corPula10: corP10, totalSalario: tS, 
+        perdaCartaoExt: pCE, perdaDigitaisExt: pDE, perdaMarketplaceExt: pME, perdaPula10Ext: pPE, 
+        totalPerdido: tP, potencialMaximo: tS + tP 
+    };
+}
+
+function blocoPremio(t, ok, gl, go, gn, v) { 
+    const c = ok ? '#34f5a0' : '#ff5470'; 
+    return `
+    <div class="bloco-indicador" style="border-color:${c};">
+        <h4 class="titulo-bloco" style="color:${c};">${t}</h4>
+        <div style="text-align:center;margin-bottom:15px;">
+            <span class="label-ind-max">${gl}</span>
+            <div style="color:${c};font-size:1.2em;font-weight:800;margin-top:5px;">${ok ? go : gn}</div>
+        </div>
+        <div class="item-ind-max" style="text-align:center;">
+            <div class="label-ind-max">BÔNUS ESTIMADO</div>
+            <div class="val-ind-max" style="color:${c};font-size:1.5em;">R$ <span class="animar-numero" data-valor="${v}" data-monetario="true">0,00</span></div>
+        </div>
+    </div>`; 
+}
+
+function linhaComponente(n, p, m, d) { 
+    const pc = m > 0 ? Math.min(p / m * 100, 100) : 0;
+    const c = pc >= 80 ? 'linear-gradient(90deg,#22d3ee,#34f5a0)' : pc >= 40 ? 'linear-gradient(90deg,#ff9f1c,#ffd24a)' : 'linear-gradient(90deg,#ff5470,#ff9f1c)'; 
+    return `
+    <div class="comp-linha">
+        <div class="cn">${n}${d ? `<br><small style="color:var(--mut);font-weight:600;">${d}</small>` : ''}</div>
+        <div class="cb"><i data-w="${pc.toFixed(1)}" style="background:${c};"></i></div>
+        <div class="cv">${p.toFixed(1).replace('.', ',')} <small>/ ${m.toFixed(1).replace('.', ',')} pts</small></div>
+    </div>`; 
+}
+
+function obterHtmlCardSimulador(f) {
+    const s = calcularSimulacao(f);
+    const fP = v => getValorLimpoParaCor(v).toFixed(1).replace('.', ',') + '%';
+    const mOk = s.bateuVenda && s.bateu3P;
+    
+    let bg = [];
+    if (s.perdaVendasNSL > 0) bg.push(`<span class="badge-perda">📉 Vendas 35 Pts (R$ ${moeda(s.perdaVendasNSL)})</span>`);
+    if (s.perdaRemotaNSL > 0) bg.push(`<span class="badge-perda">📱 Remota 10 Pts (R$ ${moeda(s.perdaRemotaNSL)})</span>`);
+    if (s.perdaIppNSL > 0) bg.push(`<span class="badge-perda">📄 IPP 15 Pts (R$ ${moeda(s.perdaIppNSL)})</span>`);
+    if (s.perdaPula10NSL > 0) bg.push(`<span class="badge-perda">🚀 Serviços 20 Pts (R$ ${moeda(s.perdaPula10NSL)})</span>`);
+    if (s.perdaNpsNSL > 0) bg.push(`<span class="badge-perda">😊 NPS 10 Pts (R$ ${moeda(s.perdaNpsNSL)})</span>`);
+    if (s.perdaFppNSL > 0) bg.push(`<span class="badge-perda">⭐ FPP 10 Pts (R$ ${moeda(s.perdaFppNSL)})</span>`);
+    if (s.perdaCartaoExt > 0) bg.push(`<span class="badge-perda">💳 Cartão Extra (R$ ${moeda(s.perdaCartaoExt)})</span>`);
+    if (s.perdaDigitaisExt > 0) bg.push(`<span class="badge-perda">📱 Digitais Extra (R$ ${moeda(s.perdaDigitaisExt)})</span>`);
+    if (s.perdaMarketplaceExt > 0) bg.push(`<span class="badge-perda">🛒 Market 3P (R$ ${moeda(s.perdaMarketplaceExt)})</span>`);
+    if (s.perdaPula10Ext > 0) bg.push(`<span class="badge-perda">🚀 Pula 10 (R$ ${moeda(s.perdaPula10Ext)})</span>`);
+
+    return `
+    <div class="detalhe-header">
+        <h3 class="detalhe-nome">${escapeHtml(f.gerente.toUpperCase())}</h3>
+        <div class="detalhe-cidade">FL ${escapeHtml(f.numFilial)} - ${escapeHtml(f.cidade)}</div>
+    </div>
+    <div class="grid-blocos-indicadores">
+        <div class="bloco-indicador bloco-full" style="border-color:#22d3ee;">
+            <h4 class="titulo-bloco" style="color:#22d3ee;">PRÊMIO NSL (R$ ${moeda(s.valorBase)})</h4>
+            <div class="nsl-hero">
+                <div class="ring-wrap">
+                    <svg width="140" height="140" viewBox="0 0 120 120">
+                        <defs><linearGradient id="gr" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#22d3ee"/><stop offset="100%" stop-color="#ffd24a"/></linearGradient></defs>
+                        <circle class="ring-bg" cx="60" cy="60" r="54"/>
+                        <circle class="ring-fg" cx="60" cy="60" r="54" data-pct="${Math.min(s.totalPontosNsl/126.25,1).toFixed(4)}" style="stroke:url(#gr);stroke-dasharray:339.29;stroke-dashoffset:339.29;"/>
+                    </svg>
+                    <div class="ring-centro"><b><span class="animar-numero" data-valor="${s.totalPontosNsl}" data-tipo="nps">0</span></b><span>PONTOS</span></div>
+                </div>
+                <div class="nsl-kpis">
+                    <div class="item-ind-max" style="background:rgba(34,211,238,.1);">
+                        <div class="label-ind-max" style="color:#22d3ee;">PONTOS</div>
+                        <div class="val-ind-max" style="color:#fff;"><span class="animar-numero" data-valor="${s.totalPontosNsl}" data-tipo="num">0</span></div>
+                    </div>
+                    <div class="item-ind-max" style="background:rgba(34,211,238,.1);">
+                        <div class="label-ind-max" style="color:#22d3ee;">VALOR GERADO</div>
+                        <div class="val-ind-max" style="color:#fff;">R$ <span class="animar-numero" data-valor="${s.salarioNsl}" data-monetario="true">0,00</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="comp-lista">
+                ${linhaComponente('Vendas', s.ptsVendas, 43.75, 'Ating. '+fP(f.vendas))}
+                ${linhaComponente('Remota', s.ptsRemota, 12.5, 'Ating. '+fP(f.vendaRemota))}
+                ${linhaComponente('IPP', s.ptsIpp, 18.75, 'Ating. '+fP(f.ippProj))}
+                ${linhaComponente('Serviços', s.ptsPula10, 25, 'Ating. '+fP(f.servicos110))}
+                ${linhaComponente('NPS', s.ptsNps, 12, 'NPS '+f.nps.toFixed(1))}
+                ${linhaComponente('FPP', s.ptsFpp, 10, f.fppElegivel?'Elegível':'Não elegível')}
+            </div>
+        </div>
+        ${blocoPremio('CARTÃO', s.bateuCartao, 'GATILHO 105%', '✅ OK', '❌ PERDIDO', s.premioCartao)}
+        ${blocoPremio('DIGITAIS', s.bateuServDigital, 'CONECTA+PLANO', '✅ OK', '❌ PERDIDO', s.premioDigital)}
+        
+        <div class="bloco-indicador bloco-full" style="border-color:${s.corPula10};">
+            <h4 class="titulo-bloco" style="color:${s.corPula10};">PULA PRA 10</h4>
+            <div class="ind-grid-2">
+                <div class="item-ind-max">
+                    <div class="label-ind-max">GATILHO</div>
+                    <div class="val-ind-max" style="color:${s.corPula10};font-size:1.45em;">${s.txtPula10}</div>
+                </div>
+                <div class="item-ind-max">
+                    <div class="label-ind-max">BÔNUS</div>
+                    <div class="val-ind-max" style="color:${s.corPula10};font-size:1.45em;">R$ <span class="animar-numero" data-valor="${s.premioPula10}" data-monetario="true">0,00</span></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bloco-indicador bloco-full" style="border-color:${mOk?'#34f5a0':'#ff5470'};">
+            <h4 class="titulo-bloco" style="color:${mOk?'#34f5a0':'#ff5470'};">MARKETPLACE 3P</h4>
+            <div class="ind-grid-2">
+                <div class="item-ind-max">
+                    <div class="label-ind-max">1P+3P >= 100%</div>
+                    <div class="val-ind-max" style="color:${mOk?'#34f5a0':'#ff5470'};font-size:1.45em;">${mOk?'✅ OK':'❌ NOK'}</div>
+                </div>
+                <div class="item-ind-max">
+                    <div class="label-ind-max">BÔNUS</div>
+                    <div class="val-ind-max" style="color:${mOk?'#34f5a0':'#ff5470'};font-size:1.45em;">R$ <span class="animar-numero" data-valor="${s.premioMarketplace}" data-monetario="true">0,00</span></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bloco-indicador bloco-full" style="background:linear-gradient(135deg,rgba(52,245,160,.15) 0%,rgba(8,13,26,.92) 100%);border:2px solid #34f5a0;">
+            <h4 class="titulo-bloco" style="color:#34f5a0;">SALÁRIO VARIÁVEL ESTIMADO</h4>
+            <div class="item-ind-max caixa-destaque-mobile" style="background:transparent;border:none;padding:10px;">
+                <div class="val-ind-max premio-gigante-verde">R$ <span class="animar-numero" data-valor="${s.totalSalario}" data-monetario="true">0,00</span></div>
+            </div>
+        </div>
+        
+        ${s.totalPerdido > 0 ? 
+        `<div class="bloco-indicador bloco-full" style="background:rgba(255,84,112,.05);border:1px dashed #ff5470;">
+            <h4 class="titulo-bloco" style="color:#ff5470;">⚠️ PREMIAÇÕES PROJETANDO NÃO ATINGIMENTO</h4>
+            <div style="margin-bottom:20px;text-align:center;">${bg.join(' ')}</div>
+            <div style="display:flex;justify-content:center;">
+                <div class="item-ind-max caixa-destaque-mobile" style="background:rgba(255,84,112,.1);border-color:#ff5470;width:100%;max-width:500px;">
+                    <div class="label-ind-max" style="color:#ff5470;">PROJEÇÃO À GANHAR, EQUILIBRE!</div>
+                    <div class="val-ind-max" style="color:#ff5470;font-size:2.2em;">R$ <span class="animar-numero" data-valor="${s.totalPerdido}" data-monetario="true">0,00</span></div>
+                </div>
+            </div>
+        </div>` : 
+        `<div class="bloco-indicador bloco-full" style="background:rgba(52,245,160,.05);border:1px dashed #34f5a0;">
+            <h4 class="titulo-bloco" style="color:#34f5a0;">🏆 MÁXIMA PERFORMANCE!</h4>
+            <p style="margin:0;font-size:.95em;color:#cbd5e1;text-align:center;">Garantindo 100% dos bônus!</p>
+        </div>`}
+        
+        <div class="bloco-indicador bloco-full" style="background:linear-gradient(135deg,rgba(255,210,74,.12) 0%,rgba(8,13,26,.92) 100%);border:2px solid #ffd24a;">
+            <h4 class="titulo-bloco" style="color:#ffd24a;">🚀 POTENCIAL DE GANHO MÁXIMO</h4>
+            <div class="item-ind-max caixa-destaque-mobile" style="background:transparent;border:none;padding:10px;">
+                <div class="val-ind-max" style="font-size:2.3em;color:#ffd24a;">R$ <span class="animar-numero" data-valor="${s.potencialMaximo}" data-monetario="true">0,00</span></div>
+            </div>
+        </div>
+    </div>`;
+}
+
+function abrirDetalheSimulador(nf) {
+    const f = listaCompletaFiliais.find(x => x.numFilial === nf); 
+    if (!f) return;
+    
+    document.getElementById('topo-geral').style.display = 'none'; 
+    document.getElementById('tela-selecao-simul').style.display = 'none'; 
+    document.getElementById('tela-comparativo-simul').style.display = 'none'; 
+    document.getElementById('tela-detalhe-simul').style.display = 'block';
+    
+    let isA = localStorage.getItem('gerente_filial_logada_trofeu') === 'ADMIN';
+    document.getElementById('topbar-simulador').innerHTML = isA ? 
+        `<button class="btn-voltar" onclick="fecharDetalheSimuladorAdmin()">Voltar Admin</button><button class="btn-voltar btn-logout" onclick="deslogarSimulador()" style="margin-left:auto;">Sair</button>` : 
+        `<button class="btn-voltar btn-logout" onclick="deslogarSimulador()">Sair</button>`;
+        
+    const cd = document.getElementById('cardDetalheSimulador'); 
+    cd.innerHTML = obterHtmlCardSimulador(f); 
+    window.scrollTo({ top: 0 }); 
+    iniciarAnimacoes(cd); 
+    animarAneisEBarras(cd);
+}
+
+function abrirTelaComparativo() { 
+    document.getElementById('tela-selecao-simul').style.display = 'none'; 
+    document.getElementById('tela-detalhe-simul').style.display = 'none'; 
+    document.getElementById('tela-comparativo-simul').style.display = 'block'; 
+    document.getElementById('container-comparativo-cards').innerHTML = ''; 
+}
+
+function fecharComparativoAdmin() { 
+    document.getElementById('tela-comparativo-simul').style.display = 'none'; 
+    document.getElementById('tela-selecao-simul').style.display = 'block'; 
+}
+
+function gerarComparativo() {
+    let v1 = document.getElementById('comp-loja-1').value;
+    let v2 = document.getElementById('comp-loja-2').value;
+    if (!v1 || !v2) return showToast('Selecione duas filiais!', 'erro');
+    
+    const f1 = listaCompletaFiliais.find(x => x.numFilial === v1);
+    const f2 = listaCompletaFiliais.find(x => x.numFilial === v2); 
+    if (!f1 || !f2) return;
+    
+    const s1 = calcularSimulacao(f1);
+    const s2 = calcularSimulacao(f2);
+    const dif = Math.abs(s1.totalSalario - s2.totalSalario);
+    
+    let res = dif < 0.005 ? 
+        `<div class="comp-resumo">🤝 Empate: <b>R$ ${moeda(s1.totalSalario)}</b></div>` : 
+        `<div class="comp-resumo">🏅 <b>FL ${s1.totalSalario > s2.totalSalario ? f1.numFilial : f2.numFilial}</b> maior ganho em <b>R$ ${moeda(dif)}</b></div>`;
+        
+    const c = document.getElementById('container-comparativo-cards'); 
+    c.innerHTML = res + `<div class="card-comparativo">${obterHtmlCardSimulador(f1)}</div><div class="card-comparativo">${obterHtmlCardSimulador(f2)}</div>`; 
+    iniciarAnimacoes(c); 
+    animarAneisEBarras(c);
+}
+
+function renderTabelaMetas(anim = false) {
+    const ocultoMetas = rankingOculto();
+    document.getElementById('metas-suspense').style.display = ocultoMetas ? 'block' : 'none';
+    document.querySelector('#aba-metas .tabela-container-scroll').style.display = ocultoMetas ? 'none' : '';
+    document.querySelector('#aba-metas .toolbar-metas').style.display = ocultoMetas ? 'none' : '';
+    if (ocultoMetas) { document.getElementById('corpo-tabela-metas').innerHTML = ''; return; }
+    const flt = (document.getElementById('busca-metas').value || '').toLowerCase().trim();
+    let ls = listaCompletaFiliais.filter(f => !flt || (`fl ${f.numFilial} ${f.cidade} ${f.gerente}`).toLowerCase().includes(flt));
+    
+    ls.sort((a, b) => { 
+        let va = (ordenacao.key === 'rank') ? a.rank : (ordenacao.key === 'nps' ? a.nps : (ordenacao.key === 'totalPts' ? a.totalPts : getValorLimpoParaCor(a[ordenacao.key])));
+        let vb = (ordenacao.key === 'rank') ? b.rank : (ordenacao.key === 'nps' ? b.nps : (ordenacao.key === 'totalPts' ? b.totalPts : getValorLimpoParaCor(b[ordenacao.key]))); 
+        if (va === vb) return a.rank - b.rank; 
+        return (va - vb) * ordenacao.dir; 
+    });
+    
+    let ht = '';
+    ls.forEach(f => {
+        ht += `<tr class="${f.rank <= 3 ? 'top3' : ''}">
+            <td><strong>${f.rank}º</strong> &nbsp; FL ${escapeHtml(f.numFilial)} <span class="cidade-tabela">- ${escapeHtml(f.cidade)}</span></td>
+            <td class="${f.nps >= NPS_MINIMO_RANKING ? 'val-bom' : 'val-ruim'}"><span class="animar-numero" data-valor="${f.nps}" data-tipo="nps">0</span></td>
+            ${criarTdPerc(f.vendas, 100)}
+            ${criarTdPerc(f.crescimento, 0)}
+            ${criarTdPerc(f.servicos110, 115)}
+            ${criarTdPerc(f.cartao, 105)}
+            ${criarTdPerc(f.cdc, 100)}
+            ${criarTdPerc(f.consorcio, 100)}
+            ${criarTdPerc(f.conecta, 100)}
+            ${criarTdPerc(f.plano, 100)}
+            ${criarTdPerc(f.vendaRemota, 100)}
+            <td class="col-pts"><span class="animar-numero" data-valor="${f.totalPts}" data-tipo="num">0</span> pts</td>
+        </tr>`;
+    });
+    
+    if (!ht) ht = `<tr><td colspan="12" style="text-align:center;padding:30px;">Nada encontrado.</td></tr>`;
+    const c = document.getElementById('corpo-tabela-metas'); 
+    c.innerHTML = ht; 
+    iniciarAnimacoes(c, anim);
+    
+    document.querySelectorAll('#tabela-grid-metas th').forEach(t => { 
+        t.classList.remove('ord-asc', 'ord-desc'); 
+        if (t.dataset.key === ordenacao.key && ordenacao.key !== 'rank') t.classList.add(ordenacao.dir === 1 ? 'ord-asc' : 'ord-desc'); 
+    });
+}
+
+document.querySelectorAll('#tabela-grid-metas th').forEach(t => { 
+    t.addEventListener('click', () => { 
+        const k = t.dataset.key; 
+        if (ordenacao.key === k) ordenacao.dir *= -1; 
+        else { ordenacao.key = k; ordenacao.dir = k === 'rank' ? 1 : -1; } 
+        renderTabelaMetas(false); 
+    }); 
+});
+
+function irParaMetas(nf) { 
+    document.getElementById('busca-metas').value = 'FL ' + nf; 
+    trocarAba('metas'); 
+    renderTabelaMetas(true); 
+}
+
+function preencherPodio(p, f, c, t) {
+    const n = f.gerente; 
+    document.getElementById('nome-' + p).innerText = n; 
+    document.getElementById('filial-' + p).innerText = `FL ${f.numFilial} - ${f.cidade}`;
+    
+    const pt = document.getElementById('pontos-' + p); 
+    pt.className = 'animar-numero'; 
+    pt.setAttribute('data-valor', f.pontosRanking); 
+    pt.setAttribute('data-tipo', 'num'); 
+    pt.innerText = '0';
+    
+    const fb = `https://ui-avatars.com/api/?name=${encodeURIComponent(n)}&background=${c}&color=0b0f19&size=${t}&bold=true`; 
+    let url = f.foto && f.foto.startsWith('http') ? f.foto : fb;
+    
+    const av = document.getElementById('avatar-' + p); 
+    av.style.display = 'flex'; 
+    av.innerHTML = `<img src="${escapeHtml(url)}" crossorigin="anonymous" alt="${p}º" onerror="this.onerror=null;this.src='${fb}';">`;
+}
+
+function renderizarTela(js) {
+    let mG = {}, m3 = {}, mI = {}, mC = {}, mR = {}, mF = {}, mFt = {}, mCD = {};
+    if (js.crescimento) js.crescimento.forEach(l => { if (l && l.length > 6) { let n = limparChave(l[0]); if (n) mCD[n] = extrairNumero(l[6]); } });
+    if (js.venda_remota) js.venda_remota.forEach(l => { if (l && l.length > 0) { let n = limparChave(l[0]); if (n) { if (l.length > 5) mR[n] = l[5]; if (l.length > 12) m3[n] = l[12]; } } });
+    if (js.consorcio) js.consorcio.forEach(l => { if (l && l.length > 1) { let n = limparChave(l[0]); if (n) mC[n] = l[1]; } });
+    if (js.ipp) js.ipp.forEach(l => { if (l && l.length > 4) { let n = limparChave(l[0]); if (n) mI[n] = extrairNumero(l[4]); } });
+    if (js.fpp) js.fpp.forEach(l => { if (l && l.length > 0) { let n = limparChave(l[0]); if (n) { let a = extrairNumero(l.length > 8 ? l[8] : 0, true); if (typeof l[8] === 'string' && !l[8].includes('%') && a > 0 && a < 10) a *= 100; mF[n] = { elegivel: a >= 100 }; } } });
+    if (js.servico) js.servico.forEach(l => { if (l && l.length > 4) { let n = limparChave(l[0]); if (n) mFt[n] = Math.max(extrairNumero(l[3]), extrairNumero(l[4])); } });
+    if (js.gerentes) js.gerentes.forEach(l => { if (l && l.length > 0) { let g = l[0] ? l[0].toString().trim() : ''; if (g) mG[g] = { nome: formatarNome(l[2] ? l[2].toString() : ''), foto: obterUrlImagem(l[5] ? l[5].toString() : '') }; } });
+
+    let fs = [];
+    for (let i = 2; i < js.trofeu.length; i++) {
+        let l = js.trofeu[i]; 
+        if (!l || l.length === 0) continue;
+        let nf = l[0] ? l[0].toString().trim() : '', cd = l[1] ? l[1].toString().trim() : '';
+        
+        if (FILIAIS_EXCLUIDAS.includes(nf) || !cd || cd.toLowerCase().includes('cidade') || nf.toLowerCase().includes('pontos')) continue;
+        
+        let iG = mG[nf] || { nome: "Equipe", foto: "" }, vR = mR[nf] || 0, v3 = m3[nf] || 0;
+        let pEx = getValorLimpoParaCor(vR) >= 100 ? 5 : 0, pts = 0;
+        
+        if (getValorLimpoParaCor(l[3]) >= 100) pts += 25; 
+        if (getValorLimpoParaCor(l[4]) >= 0) pts += 15; 
+        if (getValorLimpoParaCor(l[5]) >= 115) pts += 15; 
+        if (getValorLimpoParaCor(l[6]) >= 105) pts += 15; 
+        if (getValorLimpoParaCor(l[7]) >= 100) pts += 10; 
+        if (getValorLimpoParaCor(mC[nf] || 0) >= 100) pts += 10; 
+        if (getValorLimpoParaCor(l[9]) >= 100) pts += 5; 
+        if (getValorLimpoParaCor(l[10]) >= 100) pts += 5;
+        
+        let np = extrairNumero(l[2]), tb = np >= NPS_MINIMO_RANKING ? pts + pEx : 0;
+        fs.push({ 
+            numFilial: nf, cidade: cd, gerente: iG.nome, foto: iG.foto, nps: np, 
+            vendas: l[3], crescimento: l[4], servicos110: l[5], cartao: l[6], cdc: l[7], consorcio: mC[nf] || 0, conecta: l[9], plano: l[10], 
+            totalPts: tb, pontosRanking: tb, crescimentoDesempate: mCD[nf] || 0, 
+            vendaRemota: vR, venda3p: v3, ippProj: mI[nf] || 0, fppElegivel: mF[nf] ? mF[nf].elegivel : false, metaFaturamento: mFt[nf] || 0 
+        });
+    }
+    fs.sort((a, b) => b.pontosRanking !== a.pontosRanking ? b.pontosRanking - a.pontosRanking : b.crescimentoDesempate - a.crescimentoDesempate);
+    fs.forEach((f, i) => f.rank = i + 1); 
+    listaCompletaFiliais = fs;
+
+    pintarRanking();
+
+    let ord = [...fs].sort((a, b) => parseInt(a.numFilial) - parseInt(b.numFilial));
+    let hs = '', ho = '<option value="">-- Selecione uma Filial --</option>';
+    
+    ord.forEach(s => { 
+        hs += `
+        <div class="item-lista" data-busca="${escapeHtml(s.gerente)}" onclick="abrirDetalheSimulador('${escapeHtml(s.numFilial)}')">
+            <div class="nome-wrap"><span class="nome-filial">FL ${escapeHtml(s.numFilial)} - ${escapeHtml(s.cidade.toUpperCase())}</span></div>
+            <span style="color:var(--mut2);font-size:.9em;font-weight:700;">Acessar ➔</span>
+        </div>`; 
+        ho += `<option value="${escapeHtml(s.numFilial)}">FL ${escapeHtml(s.numFilial)} - ${escapeHtml(s.cidade.toUpperCase())}</option>`; 
+    });
+    
+    document.getElementById('lista-selecao-simul').innerHTML = hs; 
+    const c1 = document.getElementById('comp-loja-1'), c2 = document.getElementById('comp-loja-2');
+    const v1 = c1.value, v2 = c2.value; 
+    c1.innerHTML = ho; c2.innerHTML = ho; 
+    c1.value = v1; c2.value = v2;
+    
+    renderTabelaMetas(false); 
+    filtrarSelecao('ranking'); 
+    filtrarSelecao('simul'); 
+    iniciarAnimacoes();
+}
+
+async function carregarDados(t = 3) {
+    const ml = localStorage.getItem(CACHE_KEY);
+    if (ml) { 
+        try { 
+            renderizarTela(JSON.parse(ml)); 
+            document.getElementById('texto-carregando').innerHTML = 'Sincronizando...'; 
+        } catch (e) { 
+            localStorage.removeItem(CACHE_KEY); 
+        } 
+    }
+    
+    try {
+        const rs = await fetch(URL_WEB_APP); 
+        if (!rs.ok) throw new Error("API err"); 
+        const js = await rs.json();
+        
+        localStorage.setItem(CACHE_KEY, JSON.stringify(js)); 
+        renderizarTela(js); 
+        
+        document.getElementById('texto-carregando').innerText = ''; 
+        document.getElementById('aviso-erro').style.display = 'none';
+        
+        if (document.getElementById('aba-simulador').classList.contains('active')) verificarLoginSimulador();
+    } catch (e) {
+        if (t > 1) { 
+            if (!ml) document.getElementById('texto-carregando').innerHTML = 'Conectando...'; 
+            setTimeout(() => carregarDados(t - 1), 2500); 
+        } else { 
+            const a = document.getElementById('aviso-erro'); 
+            a.style.display = 'block'; 
+            a.innerHTML = ml ? '⚠️ Offline.' : '⚠️ Erro de conexão.'; 
+            document.getElementById('texto-carregando').innerText = ''; 
+        }
+    }
+}
+carregarDados();
+
+function toggleShareMenu() { document.getElementById('shareMenu').classList.toggle('show'); }
+
+async function gerarImagem(fmt) {
+    const cs = document.querySelector('.share-container'); 
+    document.getElementById('shareMenu').classList.remove('show'); 
+    cs.style.display = 'none'; 
+    window.scrollTo(0, 0); 
+    showToast('Gerando...', 'info', 2500);
+    
+    try {
+        const cv = await html2canvas(document.body, { 
+            backgroundColor: '#060913', 
+            scale: 2, 
+            useCORS: true, 
+            onclone: (d) => { 
+                const b = d.getElementById('share-banner'); 
+                if (b) b.style.display = 'block'; 
+                d.body.style.backgroundImage = 'none'; 
+                d.body.style.paddingBottom = '20px'; 
+            }, 
+            ignoreElements: (e) => e.classList.contains('share-container') || e.classList.contains('tab-container') || e.classList.contains('bg-efeito-dourado') || e.id === 'toast-box' || e.id === 'lightbox' || e.id === 'aviso-erro' || e.id === 'texto-carregando' || e.id === 'tela-login-simulador' || e.id === 'tela-selecao-simul' || e.id === 'tela-comparativo-simul' 
+        });
+        
+        cs.style.display = 'flex'; 
+        const fc = document.createElement('canvas'), cx = fc.getContext('2d'), tw = 1080, th = fmt === 'feed' ? 1080 : 1920; 
+        fc.width = tw; fc.height = th;
+        
+        cx.fillStyle = '#060913'; cx.fillRect(0, 0, tw, th); 
+        const gl = cx.createRadialGradient(tw / 2, 0, 50, tw / 2, 0, th * 0.7); 
+        gl.addColorStop(0, 'rgba(255,210,74,0.22)'); 
+        gl.addColorStop(1, 'rgba(255,210,74,0)'); 
+        cx.fillStyle = gl; 
+        cx.fillRect(0, 0, tw, th);
+        
+        const mg = fmt === 'feed' ? 100 : 150;
+        const sc = Math.min((tw - mg) / cv.width, (th - mg) / cv.height);
+        const dw = cv.width * sc, dh = cv.height * sc; 
+        cx.drawImage(cv, (tw - dw) / 2, (th - dh) / 2, dw, dh);
+        
+        fc.toBlob(async b => {
+            const ar = new File([b], `trofeu-${fmt}.png`, { type: 'image/png' });
+            if (navigator.canShare && navigator.canShare({ files: [ar] })) { 
+                try { await navigator.share({ files: [ar] }); } catch (e) {} 
+            } else { 
+                const l = document.createElement('a'); 
+                l.download = `trofeu-${fmt}.png`; 
+                l.href = fc.toDataURL('image/png'); 
+                l.click(); 
+            }
+        }, 'image/png');
+    } catch (e) { 
+        cs.style.display = 'flex'; 
+        showToast("Erro ao gerar.", 'erro'); 
+    }
+}
+
+/* =========================================================
+   MODO SUSPENSE — o que o público vê
+   ========================================================= */
+function pintarRanking() {
+    const fs = listaCompletaFiliais;
+    const banner = document.getElementById('banner-suspense-admin');
+    if (banner) banner.style.display = (SUSPENSE.ativo && isAdmin()) ? 'flex' : 'none';
+    document.getElementById('busca-ranking').style.display = rankingOculto() ? 'none' : '';
+
+    if (rankingOculto()) {
+        [1, 2, 3].forEach(preencherPodioMisterio);
+        document.getElementById('lista-filiais').innerHTML = `
+            <div class="teaser-black">
+                <div class="tb-vem">✦ VEM AÍ ✦</div>
+                <div class="tb-sub">TROFÉU GLOBAL • EDIÇÃO</div>
+                <div class="tb-big">BLACK</div>
+                <div class="tb-das">DAS</div>
+                <div class="tb-big">BLACK'S</div>
+                <div class="tb-linha"></div>
+                <div class="tb-aguardem">AGUARDEM!</div>
+            </div>`;
+        return;
+    }
+
+    if (fs.length > 0) preencherPodio(1, fs[0], 'ffd700', 180);
+    if (fs.length > 1) preencherPodio(2, fs[1], 'C0C0C0', 140);
+    if (fs.length > 2) preencherPodio(3, fs[2], 'CD7F32', 130);
+
+    let hl = '';
+    for (let i = 3; i < fs.length; i++) {
+        const f = fs[i], pct = Math.max(0, Math.min(f.pontosRanking, 105));
+        hl += `
+        <div class="item-lista" data-busca="${escapeHtml(f.gerente)}" onclick="irParaMetas('${escapeHtml(f.numFilial)}')">
+            <span class="posicao-lista">${i + 1}º</span>
+            <div class="nome-wrap">
+                <span class="nome-filial">FL ${escapeHtml(f.numFilial)} - ${escapeHtml(f.cidade)}</span>
+                <div class="barra"><i style="width:${pct}%"></i></div>
+            </div>
+            <span class="pontos-filial">${f.pontosRanking.toFixed(0)} pts</span>
+        </div>`;
+    }
+    document.getElementById('lista-filiais').innerHTML = hl;
+}
+
+function preencherPodioMisterio(p) {
+    document.getElementById('nome-' + p).innerText = '???';
+    document.getElementById('filial-' + p).innerText = 'REVELAÇÃO NA PREMIAÇÃO';
+    const pt = document.getElementById('pontos-' + p);
+    pt.className = ''; pt.removeAttribute('data-valor'); pt.innerText = '??';
+    const av = document.getElementById('avatar-' + p);
+    av.style.display = 'flex';
+    av.innerHTML = '<div class="avatar-misterio">?</div>';
+}
+
+function reaplicarVisibilidade() {
+    if (!listaCompletaFiliais.length) return;
+    pintarRanking();
+    renderTabelaMetas(false);
+    filtrarSelecao('ranking');
+    iniciarAnimacoes(document.getElementById('aba-ranking'));
+}
+
+/* =========================================================
+   MODO APRESENTAÇÃO (somente admin)
+   Avançar: clique, ESPAÇO, ENTER, → ou PageDown (passador de slides)
+   F = tela cheia • ESC = sair
+   ========================================================= */
+let apEtapas = [], apEtapa = 0, apOcupado = false, apAberta = false, apTimers = [], apCtx = null;
+const CORES_OURO = ['#ffd24a', '#fff3b0', '#f5a524', '#ffffff', '#22d3ee'];
+const CORES_PRATA = ['#cfd6e4', '#ffffff', '#9aa6c0', '#22d3ee'];
+const CORES_BRONZE = ['#e09155', '#d98a4a', '#ffb27a', '#ffffff'];
+
+function apT(fn, ms) { const id = setTimeout(() => { if (apAberta) fn(); }, ms); apTimers.push(id); return id; }
+function apEl(id) { return document.getElementById(id); }
+
+function abrirApresentacao() {
+    if (!isAdmin()) return showToast('Modo Apresentação disponível só para administradores.', 'erro');
+    const fs = listaCompletaFiliais;
+    if (fs.length < 3) return showToast('Dados ainda carregando — tente em alguns segundos.', 'erro');
+
+    apAberta = true; apEtapa = 0; apOcupado = false;
+    apEtapas = ['intro'];
+    if (fs.length > 3) apEtapas.push('lista');
+    apEtapas.push('podio', 'p3', 'p2', 'p1', 'fim');
+
+    const mes = window.MES_TITULO || '';
+    const trofeu = document.querySelector('.trofeu-lado svg');
+    const fallback = (f, cor) => `https://ui-avatars.com/api/?name=${encodeURIComponent(f.gerente)}&background=${cor}&color=0b0f19&size=300&bold=true`;
+
+    const slot = (p) => {
+        const f = fs[p - 1], cor = p === 1 ? 'ffd700' : p === 2 ? 'C0C0C0' : 'CD7F32';
+        const fb = fallback(f, cor);
+        const foto = f.foto && f.foto.startsWith('http') ? f.foto : fb;
+        return `
+        <div class="ap-slot ap-slot-${p}" id="ap-slot-${p}">
+            <div class="ap-card">
+                <div class="ap-raios"></div>
+                <div class="ap-gira">
+                    <div class="ap-face ap-frente">
+                        <div class="ap-q">?</div>
+                        <div class="ap-poslbl">${p}º LUGAR</div>
+                    </div>
+                    <div class="ap-face ap-verso">
+                        <img class="ap-foto" src="${escapeHtml(foto)}" alt="" onerror="this.onerror=null;this.src='${fb}';">
+                        <div class="ap-poslbl">${p === 1 ? '🏆 GERENTE GLOBAL' : p + 'º LUGAR'}</div>
+                        <div class="ap-nome">${escapeHtml(f.gerente)}</div>
+                        <div class="ap-fil">FL ${escapeHtml(f.numFilial)} • ${escapeHtml(f.cidade)}</div>
+                        <div class="ap-pts"><span class="animar-numero" data-valor="${f.pontosRanking}" data-tipo="num">0</span> pts</div>
+                    </div>
+                </div>
+            </div>
+            <div class="ap-base">${p}</div>
+        </div>`;
+    };
+
+    const ultimo = Math.min(fs.length, 10);
+    let itens = '';
+    for (let i = 3; i < ultimo; i++) {
+        const f = fs[i], atraso = (ultimo - 1 - i) * 0.38;
+        itens += `
+        <div class="ap-li" style="animation-delay:${atraso.toFixed(2)}s">
+            <span class="lp">${i + 1}º</span>
+            <span class="ln">${escapeHtml(f.gerente)}<small>FL ${escapeHtml(f.numFilial)} • ${escapeHtml(f.cidade)}</small></span>
+            <span class="lt">${f.pontosRanking.toFixed(0)} pts</span>
+        </div>`;
+    }
+
+    apEl('ap-palco').innerHTML = `
+        <div class="ap-cena ap-intro" id="ap-cena-intro">
+            <div class="ap-trofeu-grande">${trofeu ? trofeu.outerHTML : '🏆'}</div>
+            <div class="ap-pergunta">QUEM LEVA O<br><span>TROFÉU GLOBAL?</span></div>
+            <div class="ap-info">${fs.length} filiais na disputa • apuração encerrada</div>
+        </div>
+        <div class="ap-cena ap-lista" id="ap-cena-lista">
+            <div class="ap-lista-itens">${itens}</div>
+        </div>
+        <div class="ap-cena ap-podio" id="ap-cena-podio">
+            ${slot(2)}${slot(1)}${slot(3)}
+        </div>`;
+
+    apEl('ap-sub').innerText = 'TROFÉU GLOBAL • REGIONAL CAMPO BOM';
+    apSetTitulo(mes);
+    const ap = apEl('apresentacao');
+    ap.className = 'show';
+    document.body.style.overflow = 'hidden';
+    apMostrarCena('intro');
+    apDica();
+    apAudio();
+    try { audioOuro.load(); } catch (e) {}
+    apT(() => {
+        if (audioOuro.error || audioOuro.networkState === 3) {
+            showToast('⚠️ senna.mp3 não encontrado! Abra pelo site publicado (Vercel) ou coloque o arquivo na mesma pasta do index.html.', 'erro', 9000);
+        }
+    }, 1500);
+    if (document.documentElement.requestFullscreen && !document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+    }
+}
+
+function fecharApresentacao() {
+    apAberta = false;
+    apTimers.forEach(clearTimeout); apTimers = [];
+    try { confetti.reset(); } catch (e) {}
+    try { audioOuro.pause(); } catch (e) {}
+    apEl('apresentacao').className = '';
+    apEl('ap-palco').innerHTML = '';
+    document.body.style.overflow = '';
+    if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(() => {});
+}
+
+function apTelaCheia() {
+    if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+    else if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(() => {});
+}
+
+function apMostrarCena(nome) {
+    document.querySelectorAll('#ap-palco .ap-cena').forEach(c => c.classList.toggle('ativa', c.id === 'ap-cena-' + nome));
+}
+
+function apSetTitulo(txt) {
+    const t = apEl('ap-titulo');
+    t.innerText = txt;
+    t.classList.remove('pop'); void t.offsetWidth; t.classList.add('pop');
+}
+
+function apDica() {
+    const prox = apEtapas[apEtapa + 1];
+    const textos = {
+        lista: '▶ Próximo: do 10º ao 4º lugar',
+        podio: '▶ Próximo: o pódio',
+        p3: '▶ Próximo: revelar o 3º lugar',
+        p2: '▶ Próximo: revelar o 2º lugar',
+        p1: '▶ Próximo: revelar o GRANDE CAMPEÃO',
+        fim: '▶ Próximo: encerramento'
+    };
+    apEl('ap-dica').innerText = prox ? textos[prox] + '  (clique / espaço)' : 'Fim! ESC para sair • clique para mais confete 🎉';
+}
+
+function apAvancar() {
+    if (!apAberta || apOcupado) return;
+    if (apEtapa >= apEtapas.length - 1) {
+        confetti({ particleCount: 160, spread: 120, startVelocity: 45, origin: { x: Math.random() * .6 + .2, y: .45 }, colors: CORES_OURO, zIndex: 10100 });
+        return;
+    }
+    apEtapa++;
+    const etapa = apEtapas[apEtapa];
+    const mes = window.MES_TITULO || '';
+
+    if (etapa === 'lista') {
+        apSetTitulo(`DO ${Math.min(listaCompletaFiliais.length, 10)}º AO 4º LUGAR`);
+        apMostrarCena('lista');
+        tocarWhoosh();
+        apOcupado = true; apT(() => { apOcupado = false; }, (Math.min(listaCompletaFiliais.length, 10) - 3) * 380 + 700);
+    } else if (etapa === 'podio') {
+        apSetTitulo('O PÓDIO DE ' + mes);
+        apMostrarCena('podio');
+        tocarWhoosh();
+        apOcupado = true; apT(() => { apOcupado = false; }, 900);
+    } else if (etapa === 'p3') {
+        apRevelar(3);
+    } else if (etapa === 'p2') {
+        apRevelar(2);
+    } else if (etapa === 'p1') {
+        apRevelar(1);
+    } else if (etapa === 'fim') {
+        apSetTitulo('PARABÉNS, CAMPEÕES! 🎉');
+        tocarPrato();
+        fogosOuro(5000);
+    }
+    apDica();
+}
+
+function apRevelar(p) {
+    apOcupado = true;
+    const ap = apEl('apresentacao');
+    const slot = apEl('ap-slot-' + p);
+    const ouro = p === 1;
+    const durRufar = ouro ? 3600 : 1700;
+
+    apSetTitulo(ouro ? 'E o TROFÉU GLOBAL vai para...' : `E o ${p}º lugar é...`);
+    if (ouro) {
+        ap.classList.add('tensao');
+        document.querySelectorAll('.ap-slot-2, .ap-slot-3').forEach(s => s.classList.add('apagado'));
+    }
+    tocarRufar(durRufar);
+    tremer(slot.querySelector('.ap-card'), durRufar, ouro ? 9 : 4);
+
+    apT(() => {
+        const fl = apEl('ap-flash');
+        fl.classList.remove('bang'); void fl.offsetWidth; fl.classList.add('bang');
+        tocarPrato();
+        slot.classList.add('revelado');
+        apT(() => iniciarAnimacoes(slot), 450);
+
+        if (ouro) {
+            ap.classList.remove('tensao');
+            ap.classList.add('ouro');
+            tocarSenna();
+            apSetTitulo('🏆 GERENTE GLOBAL • ' + (window.MES_TITULO || '') + ' 🏆');
+            fogosOuro(8000);
+            apT(() => document.querySelectorAll('.ap-slot-2, .ap-slot-3').forEach(s => s.classList.remove('apagado')), 2600);
+            apT(() => { apOcupado = false; }, 2800);
+        } else {
+            const r = slot.getBoundingClientRect();
+            const o = { x: (r.left + r.width / 2) / innerWidth, y: (r.top + r.height / 3) / innerHeight };
+            const cores = p === 2 ? CORES_PRATA : CORES_BRONZE;
+            confetti({ particleCount: 170, spread: 100, startVelocity: 42, origin: o, colors: cores, zIndex: 10100 });
+            apT(() => confetti({ particleCount: 80, spread: 140, startVelocity: 28, origin: o, colors: cores, zIndex: 10100 }), 350);
+            apSetTitulo(`${p}º LUGAR`);
+            apT(() => { apOcupado = false; }, 1300);
+        }
+    }, durRufar);
+}
+
+function tocarSenna() {
+    try {
+        audioOuro.pause();
+        audioOuro.currentTime = 0;
+        audioOuro.volume = 1;
+        const p = audioOuro.play();
+        if (p) p.catch(() => showToast('🎵 Não consegui tocar o senna.mp3 — ele precisa estar na mesma pasta do site.', 'erro', 7000));
+    } catch (e) {}
+}
+
+function tremer(el, ms, max) {
+    const t0 = performance.now();
+    function f(t) {
+        const pr = Math.min((t - t0) / ms, 1);
+        const a = 0.5 + pr * pr * max;
+        el.style.transform = `translate(${(Math.random() - .5) * a}px, ${(Math.random() - .5) * a}px) rotate(${(Math.random() - .5) * a * .35}deg) scale(${1 + pr * .04})`;
+        if (pr < 1 && apAberta) requestAnimationFrame(f); else el.style.transform = '';
+    }
+    requestAnimationFrame(f);
+}
+
+function fogosOuro(ms) {
+    const fim = Date.now() + ms;
+    (function laterais() {
+        if (!apAberta) return;
+        confetti({ particleCount: 5, angle: 60, spread: 60, origin: { x: 0, y: .75 }, colors: CORES_OURO, zIndex: 10100 });
+        confetti({ particleCount: 5, angle: 120, spread: 60, origin: { x: 1, y: .75 }, colors: CORES_OURO, zIndex: 10100 });
+        if (Date.now() < fim) requestAnimationFrame(laterais);
+    })();
+    for (let d = 0; d < ms - 800; d += 750) {
+        apT(() => {
+            confetti({ particleCount: 110, spread: 360, startVelocity: 32, ticks: 90, gravity: .9, origin: { x: Math.random() * .7 + .15, y: Math.random() * .35 + .1 }, colors: CORES_OURO, zIndex: 10100 });
+            tocarEstouro();
+        }, d);
+    }
+}
+
+/* ===== Sons sintetizados (não precisa de arquivo) ===== */
+function apAudio() {
+    if (!apCtx) { try { apCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { return null; } }
+    if (apCtx.state === 'suspended') apCtx.resume();
+    return apCtx;
+}
+function apRuido(ctx, dur) {
+    const b = ctx.createBuffer(1, Math.max(1, Math.floor(ctx.sampleRate * dur)), ctx.sampleRate);
+    const d = b.getChannelData(0);
+    for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+    return b;
+}
+function tocarRufar(ms) {
+    const ctx = apAudio(); if (!ctx) return;
+    const buf = apRuido(ctx, 0.09), t0 = ctx.currentTime + 0.02, dur = ms / 1000;
+    let t = 0;
+    while (t < dur) {
+        const pr = t / dur;
+        const src = ctx.createBufferSource(); src.buffer = buf;
+        const f = ctx.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = 170 + pr * 140; f.Q.value = 0.9;
+        const g = ctx.createGain(), v = 0.12 + pr * 0.6;
+        g.gain.setValueAtTime(v, t0 + t); g.gain.exponentialRampToValueAtTime(0.001, t0 + t + 0.08);
+        src.connect(f); f.connect(g); g.connect(ctx.destination);
+        src.start(t0 + t); src.stop(t0 + t + 0.09);
+        t += Math.max(0.032, 0.095 - pr * 0.065);
+    }
+}
+function tocarPrato() {
+    const ctx = apAudio(); if (!ctx) return;
+    const t0 = ctx.currentTime;
+    const o = ctx.createOscillator(), og = ctx.createGain();
+    o.frequency.setValueAtTime(150, t0); o.frequency.exponentialRampToValueAtTime(40, t0 + 0.45);
+    og.gain.setValueAtTime(1, t0); og.gain.exponentialRampToValueAtTime(0.001, t0 + 0.55);
+    o.connect(og); og.connect(ctx.destination); o.start(t0); o.stop(t0 + 0.6);
+    const src = ctx.createBufferSource(); src.buffer = apRuido(ctx, 2.6);
+    const hp = ctx.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 4500;
+    const g = ctx.createGain(); g.gain.setValueAtTime(0.45, t0); g.gain.exponentialRampToValueAtTime(0.001, t0 + 2.5);
+    src.connect(hp); hp.connect(g); g.connect(ctx.destination); src.start(t0);
+}
+function tocarWhoosh() {
+    const ctx = apAudio(); if (!ctx) return;
+    const t0 = ctx.currentTime;
+    const src = ctx.createBufferSource(); src.buffer = apRuido(ctx, 0.7);
+    const f = ctx.createBiquadFilter(); f.type = 'bandpass'; f.Q.value = 1.2;
+    f.frequency.setValueAtTime(300, t0); f.frequency.exponentialRampToValueAtTime(3000, t0 + 0.6);
+    const g = ctx.createGain(); g.gain.setValueAtTime(0.001, t0); g.gain.exponentialRampToValueAtTime(0.25, t0 + 0.3); g.gain.exponentialRampToValueAtTime(0.001, t0 + 0.7);
+    src.connect(f); f.connect(g); g.connect(ctx.destination); src.start(t0);
+}
+function tocarEstouro() {
+    const ctx = apAudio(); if (!ctx) return;
+    const t0 = ctx.currentTime;
+    const src = ctx.createBufferSource(); src.buffer = apRuido(ctx, 0.5);
+    const f = ctx.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 1800;
+    const g = ctx.createGain(); g.gain.setValueAtTime(0.07, t0); g.gain.exponentialRampToValueAtTime(0.001, t0 + 0.45);
+    src.connect(f); f.connect(g); g.connect(ctx.destination); src.start(t0);
+}
+
+apEl('apresentacao').addEventListener('click', e => {
+    if (e.target.closest('.ap-ctrl')) return;
+    apAvancar();
+});
+document.addEventListener('keydown', e => {
+    if (!apAberta) return;
+    if ([' ', 'Enter', 'ArrowRight', 'ArrowDown', 'PageDown'].includes(e.key)) { e.preventDefault(); apAvancar(); }
+    else if (e.key === 'Escape') { fecharApresentacao(); }
+    else if (e.key === 'f' || e.key === 'F') { apTelaCheia(); }
+});
+</script>
+</body>
+</html>
