@@ -6205,7 +6205,7 @@ setTimeout(atualizarBannerSuspense, 0);
     // ==========================================
     // COLE A SUA NOVA URL DO GOOGLE AQUI DENTRO DAS ASPAS:
     // ==========================================
-    const URL_WEB_APP = 'https://script.google.com/macros/s/AKfycbzBRZf6LW32tvD5P01YoEkDjqo1mqQfl4wVnZ_hDjdjiY7Pqbk474SYeu3jwU75L-ea/exec';
+    const URL_WEB_APP = 'https://script.google.com/macros/s/AKfycbzGi892woqnrMzdInH9iJXqnQG27_NYtXhiL24QKGydrDw1MhD8pWsIGbWkTj2kO5_k/exec';
 
     // ==========================================
     // VARIÁVEIS DE SEGURANÇA E ACESSO
@@ -7230,6 +7230,14 @@ document.addEventListener('keydown', e => {
         mapaNomesQuadro = {};
         cofreCredenciais = [];
         let dadosQuadro = json.quadro || [];
+        // Formato novo do Apps Script: quadro_publico (lista de objetos, sem senhas). Vira linhas no formato antigo:
+        // [filial, cidade, -, senha, NOME, login, ..., foto(col 11)] — representantes primeiro, depois uma linha vazia, depois o resto.
+        if (!dadosQuadro.length && Array.isArray(json.quadro_publico)) {
+            const lin = o => [o.filial || '', o.cidade || '', '', '', String(o.nome || '').toUpperCase(), '', '', '', '', '', '', o.foto || ''];
+            const rep = json.quadro_publico.filter(o => o && o.representante), out = json.quadro_publico.filter(o => o && !o.representante);
+            dadosQuadro = [['FILIAL']].concat(rep.map(lin), [[]], out.map(lin));
+            rep.forEach(o => { const f = limparChave(o.filial), n = String(o.nome || '').trim().toUpperCase(); if (f && n) { (mapaNomesQuadro[f] = mapaNomesQuadro[f] || []); if (!mapaNomesQuadro[f].includes(n)) mapaNomesQuadro[f].push(n); } });
+        }
 
         if (dadosQuadro.length > 0) {
             // REGRA DA LINHA EM BRANCO:
